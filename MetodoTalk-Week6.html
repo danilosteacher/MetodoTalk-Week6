@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W6 · What Does the Team Do? — Preparação 5 Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:       #1a5c1a;
+    --green-mid:   #2d7a2d;
+    --green-light: #e8f5e8;
+    --green-pale:  #f4faf4;
+    --amber:       #b85c00;
+    --amber-light: #fff4e6;
+    --navy:        #1a2a5c;
+    --navy-light:  #e8eef8;
+    --teal:        #1a4a4a;
+    --teal-light:  #e8f5f5;
+    --red:         #8b1a1a;
+    --red-light:   #fdecea;
+    --gray:        #f4f4f4;
+    --gray-mid:    #e0e0e0;
+    --text:        #1a1a1a;
+    --text-muted:  #555;
+    --white:       #ffffff;
+    --radius:      12px;
+    --shadow:      0 2px 16px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f0f4f0; color: var(--text); min-height: 100vh; }
+
+  .top-header { background: var(--green); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .top-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: #c8e6c8; }
+  .logo span { color: white; font-size: 1.3rem; }
+  .week-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; color: #c8e6c8; }
+
+  .day-tabs { background: white; border-bottom: 2px solid var(--gray-mid); position: sticky; top: 57px; z-index: 99; }
+  .day-tabs-inner { max-width: 900px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+  .day-tabs-inner::-webkit-scrollbar { display: none; }
+  .tab-btn { flex: 1; min-width: 110px; padding: 14px 10px; border: none; background: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--green); }
+  .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab-btn .day-num { display: block; font-family: 'DM Serif Display', serif; font-size: 1.4rem; font-weight: 400; color: inherit; margin-bottom: 2px; }
+
+  .main { max-width: 900px; margin: 0 auto; padding: 28px 20px 90px; }
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; }
+  .card-header { padding: 16px 22px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--gray-mid); }
+  .card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .card-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--text); }
+  .card-subtitle { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
+  .card-body { padding: 20px 22px; }
+  .card-green .card-header { background: var(--green-pale); }
+  .card-green .card-icon { background: var(--green-light); }
+  .card-amber .card-header { background: #fffaf5; }
+  .card-amber .card-icon { background: var(--amber-light); }
+  .card-navy .card-header { background: var(--navy-light); }
+  .card-navy .card-icon { background: #d0dcf0; }
+  .card-teal .card-header { background: var(--teal-light); }
+  .card-teal .card-icon { background: #c0dede; }
+
+  .day-intro { background: var(--green); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 20px; color: white; display: flex; align-items: flex-start; gap: 20px; }
+  .day-number { font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1; color: rgba(255,255,255,0.3); flex-shrink: 0; }
+  .day-intro h2 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 6px; }
+  .day-intro p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .day-meta { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .day-pill { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 12px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; color: #c8e6c8; }
+
+  .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* POSSESSIVES TABLE */
+  .poss-table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  .poss-table th{background:var(--navy);color:white;padding:8px 14px;font-size:.8rem;font-weight:700;text-align:left;}
+  .poss-table td{padding:8px 14px;font-size:.87rem;border-bottom:1px solid var(--gray-mid);}
+  .poss-table tr:nth-child(even) td{background:var(--gray);}
+  .poss-table .highlight td{background:var(--green-light);font-weight:600;color:var(--green);}
+
+  /* VERB TABLE */
+  .verb-table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  .verb-table th{background:var(--navy);color:white;padding:8px 14px;font-size:.8rem;font-weight:700;text-align:left;}
+  .verb-table td{padding:8px 14px;font-size:.87rem;border-bottom:1px solid var(--gray-mid);}
+  .verb-table tr:nth-child(even) td{background:var(--gray);}
+  .verb-table .irreg td{background:#fff4e6;color:var(--amber);font-weight:600;}
+  .vocab-item.review{border-left:4px solid var(--amber);}
+  .vocab-item.review .vocab-word{color:var(--amber);}
+
+
+  /* ── CHECKER SYSTEM ───────────────────────────────────── */
+  .ex-wrapper { margin-bottom: 18px; }
+  .check-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .btn-check {
+    background: var(--navy); color: white; border: none; border-radius: 6px;
+    padding: 5px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.76rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-check:hover { background: #2a3a7c; }
+  .btn-example {
+    background: var(--teal-light); color: var(--teal); border: 1.5px solid var(--teal);
+    border-radius: 6px; padding: 5px 14px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-example:hover { background: var(--teal); color: white; }
+  .feedback-box {
+    display: none; border-radius: 8px; padding: 10px 14px;
+    font-size: 0.82rem; line-height: 1.5; margin-top: 6px;
+  }
+  .feedback-box.correct {
+    background: var(--green-light); border-left: 4px solid var(--green); color: var(--green);
+  }
+  .feedback-box.wrong {
+    background: var(--red-light); border-left: 4px solid var(--red); color: var(--red);
+  }
+  .feedback-box.example {
+    background: var(--teal-light); border-left: 4px solid var(--teal); color: var(--teal);
+  }
+  .feedback-box .correct-ans { font-weight: 700; }
+  .feedback-box .why { color: #333; font-style: italic; margin-top: 4px; display: block; font-size: 0.79rem; }
+  .feedback-box.open { display: block; }
+  .check-all-btn {
+    background: var(--green); color: white; border: none; border-radius: 8px;
+    padding: 8px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    font-weight: 600; cursor: pointer; margin-bottom: 14px; transition: all 0.2s;
+  }
+  .check-all-btn:hover { background: var(--green-mid); }
+  .score-box {
+    background: var(--navy-light); border-radius: 8px; padding: 10px 16px;
+    font-size: 0.85rem; color: var(--navy); font-weight: 600; margin-bottom: 14px;
+    display: none;
+  }
+  @media(max-width:600px){ .check-row { flex-direction: column; align-items: flex-start; } }
+
+  @media(max-width:600px){ .outcomes-grid { grid-template-columns: 1fr; } }
+  .outcome-item { display: flex; align-items: flex-start; gap: 8px; font-size: 0.87rem; line-height: 1.4; }
+  .outcome-check { width: 20px; height: 20px; border-radius: 50%; background: var(--green-light); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 1px; }
+
+  .contrast-box { background: #fffaf5; border: 1px solid #f0d0a0; border-left: 4px solid var(--amber); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px; }
+  .contrast-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: var(--amber); text-transform: uppercase; margin-bottom: 10px; }
+  .contrast-table { width: 100%; border-collapse: collapse; }
+  .contrast-table td { padding: 7px 10px; font-size: 0.84rem; border-bottom: 1px solid rgba(185,92,0,0.1); }
+  .contrast-table td:first-child { color: var(--navy); font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.79rem; width: 44%; }
+  .contrast-table td:nth-child(2) { color: var(--text-muted); font-size: 0.75rem; width: 12%; text-align: center; }
+  .contrast-table td:last-child { color: var(--green); font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.79rem; }
+
+  .vocab-grid { display: flex; flex-direction: column; gap: 8px; }
+  .vocab-item { border: 1px solid var(--gray-mid); border-radius: 8px; padding: 11px 16px; display: grid; grid-template-columns: 170px 150px 1fr; gap: 8px; align-items: start; transition: border-color 0.2s; }
+  .vocab-item:hover { border-color: var(--green); }
+  @media(max-width:620px){ .vocab-item { grid-template-columns: 1fr; } }
+  .vocab-word { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--green); }
+  .vocab-pt { font-size: 0.82rem; color: var(--text-muted); font-style: italic; padding-top: 3px; }
+  .vocab-sentence { font-size: 0.83rem; color: var(--text); line-height: 1.4; padding-top: 2px; }
+  .vocab-sentence em { font-style: normal; font-weight: 600; color: var(--green); }
+
+  .phrase-card { background: var(--navy-light); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; border-left: 4px solid var(--navy); }
+  .phrase-en { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--navy); font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+  .phrase-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .phrase-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 10px; }
+  .tag-tobe { background: var(--green-light); color: var(--green); }
+  .tag-do { background: var(--amber-light); color: var(--amber); }
+  .tag-adv { background: var(--navy-light); color: var(--navy); }
+  .phrase-practice { margin-top: 10px; }
+
+  .consolidation-card { background: var(--green-pale); border: 1.5px solid var(--green-light); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; border-left: 4px solid var(--green); }
+  .consolidation-en { font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; color: var(--green); font-weight: 600; margin-bottom: 6px; line-height: 1.5; }
+  .consolidation-note { font-size: 0.76rem; color: var(--text-muted); margin-bottom: 8px; }
+
+  .exercise-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: var(--navy); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--navy-light); }
+  .ex-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; font-size: 0.88rem; }
+  .ex-num { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text-muted); min-width: 22px; padding-top: 8px; font-size: 0.78rem; }
+  .ex-content { flex: 1; }
+  .ex-content p { margin-bottom: 6px; line-height: 1.4; color: var(--text); }
+  input[type="text"], textarea { width: 100%; border: 1.5px solid var(--gray-mid); border-radius: 6px; padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text); background: var(--gray); transition: border-color 0.2s, background 0.2s; resize: vertical; }
+  input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--green); background: white; }
+  .inline-input { display: inline-block; width: 160px; border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent; padding: 2px 6px; font-size: 0.88rem; }
+  .inline-input:focus { outline: none; border-bottom-color: var(--green); background: transparent; }
+
+  .grammar-box { background: var(--navy-light); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; }
+  .grammar-box h4 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; color: var(--navy); text-transform: uppercase; margin-bottom: 10px; }
+  .rule-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.84rem; flex-wrap: wrap; }
+  .rule-affirm { font-family: 'JetBrains Mono', monospace; color: var(--green); font-size: 0.8rem; min-width: 180px; }
+  .rule-arrow { color: var(--text-muted); font-size: 0.8rem; }
+  .rule-neg { font-family: 'JetBrains Mono', monospace; color: var(--red); font-size: 0.8rem; }
+  .rule-q { font-family: 'JetBrains Mono', monospace; color: var(--amber); font-size: 0.8rem; }
+
+  .callout { border-left: 4px solid; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 14px; font-size: 0.85rem; line-height: 1.5; }
+  .callout-green { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .callout-amber { border-color: var(--amber); background: var(--amber-light); color: var(--amber); }
+  .callout-navy  { border-color: var(--navy);  background: var(--navy-light);  color: var(--navy); }
+  .callout-teal  { border-color: var(--teal);  background: var(--teal-light);  color: var(--teal); }
+  .callout strong { font-weight: 700; }
+  .callout span { color: var(--text); }
+
+  .dialogue-box { background: var(--gray); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; font-size: 0.87rem; line-height: 1.8; }
+  .dialogue-box strong { color: var(--navy); }
+
+  .audio-card { border: 1.5px solid var(--gray-mid); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .audio-card:hover { border-color: var(--teal); }
+  .audio-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .audio-badge { background: var(--teal); color: white; border-radius: 6px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; }
+  .audio-name { font-weight: 600; font-size: 0.9rem; }
+  .audio-instructions { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
+
+  .script-toggle { margin-bottom: 12px; }
+  .btn-script { background: var(--teal-light); border: 1.5px solid var(--teal); color: var(--teal); border-radius: 6px; padding: 5px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-script:hover { background: var(--teal); color: white; }
+  .script-box { display: none; background: #f8fcfc; border: 1px solid var(--teal-light); border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; font-size: 0.83rem; line-height: 1.7; color: var(--text-muted); }
+  .script-box.open { display: block; }
+  .script-box strong { color: var(--teal); }
+
+  .mini-project-box { background: linear-gradient(135deg, var(--green-pale), var(--navy-light)); border: 1.5px solid var(--green-mid); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 14px; }
+  .mini-project-box h4 { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--green); margin-bottom: 8px; }
+  .mini-project-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+
+  .save-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1.5px solid var(--gray-mid); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 200; }
+  .save-info { font-size: 0.78rem; color: var(--text-muted); }
+  .save-info strong { color: var(--green); }
+  .btn { padding: 9px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-green { background: var(--green); color: white; }
+  .btn-green:hover { background: var(--green-mid); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--gray-mid); color: var(--text-muted); }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+  .btn-navy { background: var(--navy); color: white; }
+  .btn-navy:hover { background: #2a3a7c; }
+
+
+  /* POSSESSIVES TABLE */
+  .poss-table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  .poss-table th{background:var(--navy);color:white;padding:8px 14px;font-size:.8rem;font-weight:700;text-align:left;}
+  .poss-table td{padding:8px 14px;font-size:.87rem;border-bottom:1px solid var(--gray-mid);}
+  .poss-table tr:nth-child(even) td{background:var(--gray);}
+  .poss-table .highlight td{background:var(--green-light);font-weight:600;color:var(--green);}
+
+  /* VERB TABLE */
+  .verb-table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  .verb-table th{background:var(--navy);color:white;padding:8px 14px;font-size:.8rem;font-weight:700;text-align:left;}
+  .verb-table td{padding:8px 14px;font-size:.87rem;border-bottom:1px solid var(--gray-mid);}
+  .verb-table tr:nth-child(even) td{background:var(--gray);}
+  .verb-table .irreg td{background:#fff4e6;color:var(--amber);font-weight:600;}
+  .vocab-item.review{border-left:4px solid var(--amber);}
+  .vocab-item.review .vocab-word{color:var(--amber);}
+
+  @media(max-width:600px){
+    .top-header-inner { padding: 10px 14px; }
+    .logo { font-size: 0.9rem; }
+    .logo span { font-size: 1rem; }
+    .week-badge { font-size: 0.68rem; padding: 3px 10px; }
+    .day-tabs { top: 48px; }
+    .tab-btn { min-width: 64px; padding: 10px 6px; font-size: 0.62rem; }
+    .tab-btn .day-num { font-size: 1.1rem; }
+    .main { padding: 16px 12px 90px; }
+    .day-intro { padding: 18px 16px; gap: 12px; }
+    .day-number { font-size: 2.4rem; }
+    .day-intro h2 { font-size: 1.1rem; }
+    .day-intro p { font-size: 0.82rem; }
+    .card-header { padding: 12px 14px; }
+    .card-body { padding: 14px 14px; }
+    .vocab-item { grid-template-columns: 1fr; padding: 10px 12px; }
+    .contrast-table tr { display: grid; grid-template-columns: 1fr 18px 1fr; }
+    .contrast-table td { border: none; padding: 5px 4px; font-size: 0.73rem; }
+    .inline-input { width: 100% !important; display: block; margin-top: 4px; }
+    .dialogue-box { font-size: 0.82rem; padding: 12px 12px; }
+    .save-bar { padding: 10px 12px; flex-direction: column; align-items: stretch; }
+    .save-info { font-size: 0.72rem; text-align: center; }
+    .save-bar > div { display: flex; gap: 8px; }
+    .btn { flex: 1; padding: 10px 8px; font-size: 0.78rem; }
+  }
+
+  @media print {
+    .day-tabs, .save-bar, .top-header, .btn-script { display: none !important; }
+    .day-panel { display: block !important; page-break-before: always; }
+    .day-panel:first-child { page-break-before: avoid; }
+    .script-box { display: block !important; }
+    body { background: white; }
+    .main { padding: 0; }
+  }
+
+  /* ── FLASHCARD SYSTEM (igual W2/W5) ── */
+  .fc-wrapper { margin-bottom: 20px; }
+  .voice-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .voice-label { font-size: .75rem; color: #4b5563; }
+  .voices-loading { font-size: .75rem; color: #4b5563; font-style: italic; }
+  .vbtn { padding: 4px 12px; border-radius: 99px; border: 1px solid #e5e7eb; background: transparent; font-size: .75rem; color: #4b5563; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .vbtn:hover { background: var(--green-light); border-color: var(--green); }
+  .vbtn.active { background: var(--green-light); color: var(--green); border-color: var(--green); font-weight: 600; }
+  .fc-dots { display: flex; gap: 5px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .fc-dot { width: 8px; height: 8px; border-radius: 50%; background: #e5e7eb; cursor: pointer; transition: all .2s; }
+  .fc-dot.active { background: var(--green); transform: scale(1.3); }
+  .fc-dot.done { background: var(--green); opacity: .4; }
+  .fc-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .fc-counter { font-size: .8rem; color: #4b5563; }
+  .fc-arrows { display: flex; gap: 6px; }
+  .fc-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .15s; }
+  .fc-arrow:hover { background: var(--green-light); border-color: var(--green); }
+  .fc-arrow svg { width: 14px; height: 14px; stroke: #4b5563; stroke-width: 2; fill: none; }
+  .flashcard { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius); min-height: 230px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 24px; gap: 10px; position: relative; transition: border-color .2s, box-shadow .2s; user-select: none; }
+  .flashcard:hover { border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,92,26,.07); }
+  .fc-side-label { position: absolute; top: 12px; right: 14px; font-size: .68rem; font-weight: 500; color: #4b5563; text-transform: uppercase; letter-spacing: .06em; }
+  .fc-front { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+  .fc-front.hidden { display: none; }
+  .fc-back { display: none; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+  .fc-back.visible { display: flex; }
+  .fc-step-label { font-size: .72rem; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: .06em; }
+  .fc-word { font-family: 'DM Serif Display', serif; font-size: 1.6rem; font-weight: 700; color: #1f2937; line-height: 1.2; }
+  .fc-ipa { font-size: .8rem; color: #4b5563; font-style: italic; }
+  .fc-hint { font-size: .75rem; color: #4b5563; margin-top: 4px; }
+  .audio-btns { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+  .abtn { display: flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 99px; border: 1px solid #e5e7eb; background: transparent; font-size: .75rem; color: #4b5563; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .abtn:hover { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .abtn.playing { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .abtn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; flex-shrink: 0; }
+  .spd-btn { padding: 4px 10px; border-radius: 99px; border: 1px solid #e5e7eb; background: transparent; font-size: .7rem; color: #4b5563; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .spd-btn.active { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .fc-translation { font-family: 'DM Serif Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--green); }
+  .fc-example { font-size: .85rem; color: #374151; line-height: 1.6; border-left: 3px solid var(--green); padding-left: 12px; text-align: left; width: 100%; font-family: 'JetBrains Mono', monospace; }
+  .fc-example-pt { font-size: .78rem; color: #4b5563; padding-left: 15px; text-align: left; width: 100%; font-style: italic; }
+  .fc-why { font-size: .75rem; background: var(--green-light); color: var(--green); padding: 5px 14px; border-radius: 99px; margin-top: 4px; }
+  /* teal variant — dia 4 */
+  .fc-teal .flashcard:hover { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(26,74,74,.07); }
+  .fc-teal .fc-step-label { color: var(--teal); }
+  .fc-teal .fc-dot.active, .fc-teal .fc-dot.done { background: var(--teal); }
+  .fc-teal .vbtn:hover, .fc-teal .vbtn.active { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .fc-teal .abtn:hover, .fc-teal .abtn.playing { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .fc-teal .spd-btn.active { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .fc-teal .fc-translation { color: var(--teal); }
+  .fc-teal .fc-example { border-left-color: var(--teal); }
+  .fc-teal .fc-why { background: var(--teal-light); color: var(--teal); }
+  .fc-teal .fc-arrow:hover { background: var(--teal-light); border-color: var(--teal); }
+  /* navy variant — dia 5 chunks */
+  .fc-navy .flashcard:hover { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(26,42,92,.07); }
+  .fc-navy .fc-step-label { color: var(--navy); }
+  .fc-navy .fc-dot.active, .fc-navy .fc-dot.done { background: var(--navy); }
+  .fc-navy .vbtn:hover, .fc-navy .vbtn.active { background: var(--navy-light); border-color: var(--navy); color: var(--navy); }
+  .fc-navy .abtn:hover, .fc-navy .abtn.playing { background: var(--navy-light); border-color: var(--navy); color: var(--navy); }
+  .fc-navy .spd-btn.active { background: var(--navy-light); border-color: var(--navy); color: var(--navy); }
+  .fc-navy .fc-translation { color: var(--navy); }
+  .fc-navy .fc-example { border-left-color: var(--navy); }
+  .fc-navy .fc-why { background: var(--navy-light); color: var(--navy); }
+
+  .video-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.5); color: #fff; padding: 9px 20px; border-radius: 40px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: .9rem; text-decoration: none; margin-top: 12px; transition: all .2s; }
+  .video-btn:hover { background: rgba(255,255,255,0.30); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<header class="top-header">
+  <div class="top-header-inner">
+    <div class="logo"><span>Talk It Easy</span> · Agro English</div>
+    <div class="week-badge">W6 · What Does the Team Do?</div>
+  </div>
+</header>
+
+<nav class="day-tabs">
+  <div class="day-tabs-inner">
+    <button class="tab-btn active" onclick="showDay(1)"><span class="day-num">1</span>He/She + Verbos</button>
+    <button class="tab-btn" onclick="showDay(2)"><span class="day-num">2</span>Negativa + Adv.</button>
+    <button class="tab-btn" onclick="showDay(3)"><span class="day-num">3</span>Perguntas</button>
+    <button class="tab-btn" onclick="showDay(4)"><span class="day-num">4</span>Listening</button>
+    <button class="tab-btn" onclick="showDay(5)"><span class="day-num">5</span>Produção</button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════ DIA 1 ══════════════════════ -->
+<div class="day-panel active" id="day-1">
+
+  <div class="day-intro">
+    <div class="day-number">1</div>
+    <div class="day-intro-content">
+      <h2>He/She + Verbos de Ação + His/Her</h2>
+      <p>Esta semana você aprende a descrever o que seus colegas FAZEM usando He e She. Leia o diálogo, encontre os verbos e anote as palavras.</p>
+      <div class="day-meta">
+        <span class="day-pill">📹 Vídeo aula incluído</span>
+        <span class="day-pill">📖 8 palavras novas</span>
+        <span class="day-pill">⏱ 25 minutos</span>
+      </div>
+      <a class="video-btn" href="https://youtu.be/G-onkHR3isw" target="_blank">▶ Assistir Vídeo — Dia 1</a>
+    </div>
+  </div>
+
+  <!-- LEARNING OUTCOMES -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">🎯</div>
+      <div><div class="card-title">O que você vai aprender esta semana</div><div class="card-subtitle">Learning Outcomes — W6</div></div>
+    </div>
+    <div class="card-body">
+      <div class="outcomes-grid">
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Usar <strong>He/She + verbo -S/-ES</strong> para descrever o que colegas fazem</span></div>
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Usar <strong>His/Her</strong> para falar sobre responsabilidades e características</span></div>
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Usar <strong>always/usually/sometimes/never</strong> para detalhar rotinas</span></div>
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Fazer perguntas com <strong>Does he/she...?</strong> e responder corretamente</span></div>
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Usar <strong>He doesn't / She doesn't</strong> para o que alguém NÃO faz</span></div>
+        <div class="outcome-item"><div class="outcome-check">✓</div><span>Descrever <strong>sua função</strong> e a de um colega real em inglês</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTRASTE -->
+  <div class="card card-amber">
+    <div class="card-header">
+      <div class="card-icon">🔄</div>
+      <div><div class="card-title">Lembra do que você aprendeu?</div><div class="card-subtitle">I/You (W4) → He/She (W6) — só muda o pronome e o verbo!</div></div>
+    </div>
+    <div class="card-body">
+      <div class="contrast-box">
+        <div class="contrast-label">I/You → He/She · Adicione -S ou -ES no verbo!</div>
+        <table class="contrast-table">
+          <tr><td>I manage the team.</td><td>→</td><td>He manages the team.</td></tr>
+          <tr><td>I travel to farms.</td><td>→</td><td>She travels to farms.</td></tr>
+          <tr><td>I coordinate logistics.</td><td>→</td><td>He coordinates logistics.</td></tr>
+          <tr><td>I check the fields.</td><td>→</td><td>She checks the fields.</td></tr>
+          <tr><td>My main role is...</td><td>→</td><td>His/Her main role is...</td></tr>
+        </table>
+      </div>
+      <div class="callout callout-amber"><strong>Regra: </strong><span>Com He e She, o verbo sempre recebe <strong>-S</strong> (manages, travels) ou <strong>-ES</strong> (checks, coordinates). Com I e You, o verbo fica igual. Simples assim!</span></div>
+    </div>
+  </div>
+
+
+  <!-- TABELA DE POSSESSIVOS -->
+  <div class="card card-navy">
+    <div class="card-header"><div class="card-icon">📌</div>
+      <div><div class="card-title">Tabela de Possessivos — Referência Completa</div><div class="card-subtitle">Use esta tabela sempre que precisar — esta semana e nas próximas!</div></div>
+    </div>
+    <div class="card-body">
+      <table class="poss-table">
+        <tr><th>Pronome (quem faz)</th><th>Possessivo (de quem é)</th><th>Exemplo</th></tr>
+        <tr><td>I</td><td><strong>my</strong></td><td>My main role is crop planning.</td></tr>
+        <tr><td>You</td><td><strong>your</strong></td><td>Your schedule is very busy.</td></tr>
+        <tr style="background:var(--green-light)"><td><strong>He ← novo!</strong></td><td><strong>his</strong></td><td>His main role is logistics.</td></tr>
+        <tr style="background:var(--green-light)"><td><strong>She ← novo!</strong></td><td><strong>her</strong></td><td>Her team has four people.</td></tr>
+        <tr><td>It</td><td><strong>its</strong></td><td><em>Só referência — não cai em exercício esta semana.</em></td></tr>
+        <tr style="background:var(--amber-light)"><td><strong>We ← novo!</strong></td><td><strong>our</strong></td><td>Our team is very busy this week.</td></tr>
+        <tr style="background:var(--amber-light)"><td><strong>They ← novo!</strong></td><td><strong>their</strong></td><td>Their schedule starts at 5am.</td></tr>
+      </table>
+      <div class="callout callout-navy"><strong>Atenção: </strong><span><strong>Our</strong> e <strong>Their</strong> são novos esta semana. Você vai vê-los nos áudios e na produção. Memorize a tabela — ela vai aparecer em todas as semanas seguintes!</span></div>
+    </div>
+  </div>
+
+  <!-- TABELA DE VERBOS -->
+  <div class="card card-navy">
+    <div class="card-header"><div class="card-icon">📊</div>
+      <div><div class="card-title">Verbos com e sem -S — Referência Visual</div><div class="card-subtitle">I/You/We/They = verbo base · He/She = verbo + S ou ES</div></div>
+    </div>
+    <div class="card-body">
+      <table class="verb-table">
+        <tr><th>I / You / We / They</th><th>He / She + regra</th><th>Exemplo com He/She</th></tr>
+        <tr><td>manage</td><td><strong>manages</strong> (+S)</td><td>He manages the crop planning.</td></tr>
+        <tr><td>travel</td><td><strong>travels</strong> (+S)</td><td>She travels to farms every week.</td></tr>
+        <tr><td>coordinate</td><td><strong>coordinates</strong> (+S)</td><td>He coordinates the field team.</td></tr>
+        <tr><td>visit</td><td><strong>visits</strong> (+S)</td><td>She visits the headquarters monthly.</td></tr>
+        <tr><td>work</td><td><strong>works</strong> (+S)</td><td>He works long hours at the farm.</td></tr>
+        <tr><td>eat</td><td><strong>eats</strong> (+S)</td><td>She eats at the canteen every day.</td></tr>
+        <tr><td>drink</td><td><strong>drinks</strong> (+S)</td><td>He drinks coffee every morning.</td></tr>
+        <tr><td>check</td><td><strong>checks</strong> (+S)</td><td>He checks the fields before noon.</td></tr>
+        <tr><td>handle</td><td><strong>handles</strong> (+S)</td><td>She handles all international reports.</td></tr>
+        <tr><td>study</td><td><strong>studies</strong> (Y→IES)</td><td>She studies English after work.</td></tr>
+        <tr style="background:#fff4e6"><td><strong>have ⚠️ irregular!</strong></td><td><strong>has</strong> (muda!)</td><td>He has a coffee break at 9am.</td></tr>
+      </table>
+      <div class="callout callout-amber" style="margin-top:14px"><strong>Atenção especial: </strong><span><strong>have → has</strong> é irregular! Com He/She nunca se diz "he haves" — sempre <strong>he has</strong>. Este é o único verbo irregular desta semana.</span></div>
+      <button class="check-all-btn" onclick="checkAll('d1-vd')">Checar Mini Drill</button>
+<div class="score-box" id="score-d1-vd"></div>
+<div class="exercise-label" style="margin-top:20px">Mini Drill — transforme de I para He ou She</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>I work at the farm. (He)</p><input type="text" placeholder="He works..." data-key="d1-vd-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-1]');checkField('d1-vd-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>I eat at the canteen. (She)</p><input type="text" placeholder="She eats..." data-key="d1-vd-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-2]');checkField('d1-vd-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>I drink coffee every morning. (He)</p><input type="text" placeholder="He drinks..." data-key="d1-vd-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-3]');checkField('d1-vd-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>I study English at home. (She)</p><input type="text" placeholder="She studies..." data-key="d1-vd-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-4]');checkField('d1-vd-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>I have a coffee break at 3pm. (He)</p><input type="text" placeholder="He has..." data-key="d1-vd-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-5]');checkField('d1-vd-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>I manage the team. (She)</p><input type="text" placeholder="She manages..." data-key="d1-vd-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-6]');checkField('d1-vd-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-6"></div></div></div>
+      <div class="ex-item"><div class="ex-num">7.</div><div class="ex-content"><p>I travel to partner farms. (He)</p><input type="text" placeholder="He travels..." data-key="d1-vd-7">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-vd-7]');checkField('d1-vd-7',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-vd-7"></div></div></div>
+    </div>
+  </div>
+
+  <!-- VOCAB DIA 1 -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📚</div>
+      <div><div class="card-title">Vocabulário do Dia 1 — Verbos de Ação + His/Her</div><div class="card-subtitle">10 palavras · Leia, traduza mentalmente e diga em voz alta 3x</div></div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+      <div class="fc-wrapper" id="fc-d1">
+        <div class="voice-row">
+          <span class="voice-label">Voz:</span>
+          <span class="voices-loading" id="v-loading-d1">Carregando vozes...</span>
+          <div id="v-btns-d1" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+        <div class="fc-dots" id="fc-dots-d1"></div>
+        <div class="fc-nav-row">
+          <span class="fc-counter" id="fc-counter-d1">1 de 10</span>
+          <div class="fc-arrows">
+            <button class="fc-arrow" onclick="fcNav('d1',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="fc-arrow" onclick="fcNav('d1',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="flashcard" onclick="handleCardClick(event,'d1')">
+          <div class="fc-front" id="fc-front-d1">
+            <div class="fc-side-label">Toque para ver a tradução</div>
+            <div class="fc-step-label" id="fc-step-d1"></div>
+            <div class="fc-word" id="fc-word-d1"></div>
+            <div class="fc-ipa" id="fc-ipa-d1"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-word-d1" onclick="sayWord('d1')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button>
+              <button class="spd-btn active" id="spd1-d1" onclick="setSpd('d1',1,event)">1×</button>
+              <button class="spd-btn" id="spd07-d1" onclick="setSpd('d1',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-hint">Toque para ver tradução e uso real</div>
+          </div>
+          <div class="fc-back" id="fc-back-d1">
+            <div class="fc-side-label">Tradução e uso real</div>
+            <div class="fc-translation" id="fc-trans-d1"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-ex-d1" onclick="sayEx('d1')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button>
+              <button class="spd-btn active" id="exspd1-d1" onclick="setExSpd('d1',1,event)">1×</button>
+              <button class="spd-btn" id="exspd07-d1" onclick="setExSpd('d1',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-example" id="fc-ex-d1"></div>
+            <div class="fc-example-pt" id="fc-ex-pt-d1"></div>
+            <div class="fc-why" id="fc-why-d1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="vocab-grid" style="display:none">
+        <div class="vocab-item"><div class="vocab-word">manages</div><div class="vocab-pt">gerencia (ele/ela)</div><div class="vocab-sentence">He <em>manages</em> the crop planning at AgroBrasil.</div></div>
+        <div class="vocab-item"><div class="vocab-word">travels</div><div class="vocab-pt">viaja (ele/ela)</div><div class="vocab-sentence">She <em>travels</em> to partner farms every week.</div></div>
+        <div class="vocab-item"><div class="vocab-word">coordinates</div><div class="vocab-pt">coordena (ele/ela)</div><div class="vocab-sentence">He <em>coordinates</em> the field team every morning.</div></div>
+        <div class="vocab-item"><div class="vocab-word">checks</div><div class="vocab-pt">verifica / inspeciona</div><div class="vocab-sentence">She <em>checks</em> the soybean fields before noon.</div></div>
+        <div class="vocab-item"><div class="vocab-word">visits</div><div class="vocab-pt">visita (ele/ela)</div><div class="vocab-sentence">He <em>visits</em> partner farms on Thursdays.</div></div>
+        <div class="vocab-item"><div class="vocab-word">handles</div><div class="vocab-pt">cuida de / lida com</div><div class="vocab-sentence">She <em>handles</em> all international reports for the board.</div></div>
+        <div class="vocab-item"><div class="vocab-word">his</div><div class="vocab-pt">dele / seu (masc.)</div><div class="vocab-sentence"><em>His</em> main role is crop planning. <em>His</em> team has 4 people.</div></div>
+        <div class="vocab-item"><div class="vocab-word">her</div><div class="vocab-pt">dela / sua (fem.)</div><div class="vocab-sentence"><em>Her</em> main role is logistics. <em>Her</em> schedule is very busy.</div></div>
+        <div class="vocab-item"><div class="vocab-word">during</div><div class="vocab-pt">durante</div><div class="vocab-sentence">He works overtime <em>during</em> harvest season. She travels <em>during</em> the week.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 1 — DIÁLOGO -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">🎬</div>
+      <div><div class="card-title">Part 1 — The Planning Meeting</div><div class="card-subtitle">Leia o diálogo · identifique He/She + verbo em cada fala</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Situação: </strong><span>AgroBrasil precisa preparar um relatório de equipe para o board australiano. Ana e James estão numa reunião de planejamento discutindo o que cada membro da equipe FAZ na operação.</span></div>
+      <div class="dialogue-box">
+        <strong>JAMES:</strong> "Ana, before I present the report to the board, I need to understand what each person does. Can you describe the team?"<br>
+        <strong>ANA:</strong> "Of course! Let me start with Lucas. He is our agronomist. He manages the crop planning. His main role is crop quality."<br>
+        <strong>JAMES:</strong> "Does he work at the office?"<br>
+        <strong>ANA:</strong> "No, he doesn't. He works in the field. He checks the soybean crops every morning and he visits partner farms on Thursdays. His schedule starts at 5am!"<br>
+        <strong>JAMES:</strong> "And who handles logistics?"<br>
+        <strong>ANA:</strong> "That's Patricia. She coordinates all shipments and she handles the warehouse team. Her team has four people. She travels to Santos every month for the port operations."<br>
+        <strong>JAMES:</strong> "Does she work at the headquarters?"<br>
+        <strong>ANA:</strong> "Yes, she does — but she also travels. Her main role is to check that every delivery is on time."<br>
+        <strong>JAMES:</strong> "What about the field technician?"<br>
+        <strong>ANA:</strong> "Felipe. He doesn't work at the office at all — he is always in the field. He checks the crops and he coordinates the harvest team. His role is critical for our quality reports."<br>
+        <strong>JAMES:</strong> "This is exactly what I need for the board report. Thank you, Ana!"
+      </div>
+
+      <div class="exercise-label">Quick Questions — responda sobre o diálogo</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>What does Lucas manage?</p><input type="text" placeholder="He manages..." data-key="d1-q1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-q1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-q1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>Does he work at the office?</p><input type="text" placeholder="No, he doesn't. He..." data-key="d1-q2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-q2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-q2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>What does Patricia handle?</p><input type="text" placeholder="She handles..." data-key="d1-q3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-q3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-q3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>Does she travel?</p><input type="text" placeholder="Yes, she does. She travels to..." data-key="d1-q4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-q4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-q4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>What does Felipe check?</p><input type="text" placeholder="He checks..." data-key="d1-q5">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-q5', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-q5"></div></div></div>
+    </div>
+  </div>
+
+  <!-- EXERCISE 1 -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">✍️</div>
+      <div><div class="card-title">Part 2 — Exercise 1</div><div class="card-subtitle">I → He/She · Transforme as frases</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Lembre: </strong><span>I manage → He <strong>manages</strong> · I travel → She <strong>travels</strong> · I check → He <strong>checks</strong> · My → His/Her</span></div>
+      <button class="check-all-btn" onclick="checkAll('d1-e1')">Checar Exercise 1</button>
+<div class="score-box" id="score-d1-e1"></div>
+<div class="exercise-label">Transforme de I para He ou She</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>I manage the crop planning. (He)</p><input type="text" placeholder="He..." data-key="d1-e1-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-1]');checkField('d1-e1-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>I travel to partner farms. (She)</p><input type="text" placeholder="She..." data-key="d1-e1-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-2]');checkField('d1-e1-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>I coordinate the field team. (He)</p><input type="text" placeholder="He..." data-key="d1-e1-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-3]');checkField('d1-e1-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>I check the soybean fields. (She)</p><input type="text" placeholder="She..." data-key="d1-e1-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-4]');checkField('d1-e1-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>I handle all international reports. (He)</p><input type="text" placeholder="He..." data-key="d1-e1-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-5]');checkField('d1-e1-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>I visit partner farms on Thursdays. (She)</p><input type="text" placeholder="She..." data-key="d1-e1-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-6]');checkField('d1-e1-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-6"></div></div></div>
+      <div class="ex-item"><div class="ex-num">7.</div><div class="ex-content"><p>My main role is crop planning. (His)</p><input type="text" placeholder="His..." data-key="d1-e1-7">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-7]');checkField('d1-e1-7',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-7"></div></div></div>
+      <div class="ex-item"><div class="ex-num">8.</div><div class="ex-content"><p>My team has four people. (Her)</p><input type="text" placeholder="Her..." data-key="d1-e1-8">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d1-e1-8]');checkField('d1-e1-8',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d1-e1-8"></div></div></div>
+    </div>
+  </div>
+
+  <!-- VOCAB CHECK -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📝</div>
+      <div><div class="card-title">Vocabulary Check — Dia 1</div><div class="card-subtitle">Anote 3 palavras com definição e frase sobre sua realidade</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-green"><strong>Dica: </strong><span>Escolha os 3 verbos que mais descrevem o que você ou seu colega fazem no trabalho. Use a frase para falar da SUA realidade.</span></div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d1-vc1-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d1-vc1-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase sobre sua realidade" data-key="d1-vc1-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-vc1-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-vc1-s"></div></p>
+      </div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d1-vc2-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d1-vc2-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase sobre sua realidade" data-key="d1-vc2-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-vc2-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-vc2-s"></div></p>
+      </div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d1-vc3-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d1-vc3-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase sobre sua realidade" data-key="d1-vc3-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d1-vc3-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d1-vc3-s"></div></p>
+      </div></div>
+    </div>
+  </div>
+
+</div><!-- /day-1 -->
+
+
+<!-- ══════════════════════ DIA 2 ══════════════════════ -->
+<div class="day-panel" id="day-2">
+
+  <div class="day-intro">
+    <div class="day-number">2</div>
+    <div class="day-intro-content">
+      <h2>He doesn't / She doesn't + Advérbios de Frequência</h2>
+      <p>Hoje você aprende a dizer o que alguém NÃO faz e a usar always/usually/sometimes/never para dar mais detalhes sobre a rotina.</p>
+      <div class="day-meta">
+        <span class="day-pill">📹 Vídeo aula incluído</span>
+        <span class="day-pill">📖 8 palavras novas</span>
+        <span class="day-pill">⏱ 25 minutos</span>
+      </div>
+      <a class="video-btn" href="https://youtu.be/CCuboStwHNQ" target="_blank">▶ Assistir Vídeo — Dia 2</a>
+    </div>
+  </div>
+
+  <!-- CONTRASTE -->
+  <div class="card card-amber">
+    <div class="card-header">
+      <div class="card-icon">🔄</div>
+      <div><div class="card-title">Contraste — Negativa na 3ª pessoa</div><div class="card-subtitle">He doesn't / She doesn't — nunca He don't!</div></div>
+    </div>
+    <div class="card-body">
+      <div class="contrast-box">
+        <div class="contrast-label">I/You → don't · He/She → doesn't · Verbo sempre base!</div>
+        <table class="contrast-table">
+          <tr><td>I don't manage.</td><td>→</td><td>He doesn't manage.</td></tr>
+          <tr><td>You don't travel.</td><td>→</td><td>She doesn't travel.</td></tr>
+          <tr><td>I don't work at the office.</td><td>→</td><td>He doesn't work at the office.</td></tr>
+          <tr><td>He manages. (afirm.)</td><td>→</td><td>He doesn't manage. (neg.)</td></tr>
+        </table>
+      </div>
+      <div class="callout callout-amber"><strong>Erro clássico: </strong><span>"He doesn't manages" — ERRADO! Com doesn't, o verbo volta para a forma base: He doesn't <strong>manage</strong>. Nunca -S depois de doesn't!</span></div>
+    </div>
+  </div>
+
+  <!-- VOCAB DIA 2 -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📚</div>
+      <div><div class="card-title">Vocabulário do Dia 2 — Advérbios + Locais de Operação</div><div class="card-subtitle">10 palavras · Foco em frequência e locais do agronegócio</div></div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+      <div class="fc-wrapper" id="fc-d2">
+        <div class="voice-row">
+          <span class="voice-label">Voz:</span>
+          <span class="voices-loading" id="v-loading-d2">Carregando vozes...</span>
+          <div id="v-btns-d2" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+        <div class="fc-dots" id="fc-dots-d2"></div>
+        <div class="fc-nav-row">
+          <span class="fc-counter" id="fc-counter-d2">1 de 10</span>
+          <div class="fc-arrows">
+            <button class="fc-arrow" onclick="fcNav('d2',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="fc-arrow" onclick="fcNav('d2',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="flashcard" onclick="handleCardClick(event,'d2')">
+          <div class="fc-front" id="fc-front-d2">
+            <div class="fc-side-label">Toque para ver a tradução</div>
+            <div class="fc-step-label" id="fc-step-d2"></div>
+            <div class="fc-word" id="fc-word-d2"></div>
+            <div class="fc-ipa" id="fc-ipa-d2"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-word-d2" onclick="sayWord('d2')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button>
+              <button class="spd-btn active" id="spd1-d2" onclick="setSpd('d2',1,event)">1×</button>
+              <button class="spd-btn" id="spd07-d2" onclick="setSpd('d2',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-hint">Toque para ver tradução e uso real</div>
+          </div>
+          <div class="fc-back" id="fc-back-d2">
+            <div class="fc-side-label">Tradução e uso real</div>
+            <div class="fc-translation" id="fc-trans-d2"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-ex-d2" onclick="sayEx('d2')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button>
+              <button class="spd-btn active" id="exspd1-d2" onclick="setExSpd('d2',1,event)">1×</button>
+              <button class="spd-btn" id="exspd07-d2" onclick="setExSpd('d2',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-example" id="fc-ex-d2"></div>
+            <div class="fc-example-pt" id="fc-ex-pt-d2"></div>
+            <div class="fc-why" id="fc-why-d2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="vocab-grid" style="display:none">
+        <div class="vocab-item"><div class="vocab-word">always</div><div class="vocab-pt">sempre</div><div class="vocab-sentence">He <em>always</em> arrives early at the farm. She <em>always</em> checks the reports.</div></div>
+        <div class="vocab-item"><div class="vocab-word">usually</div><div class="vocab-pt">geralmente</div><div class="vocab-sentence">She <em>usually</em> coordinates the morning shipments. He <em>usually</em> visits two farms a week.</div></div>
+        <div class="vocab-item"><div class="vocab-word">sometimes</div><div class="vocab-pt">às vezes</div><div class="vocab-sentence">He <em>sometimes</em> works overtime during harvest season.</div></div>
+        <div class="vocab-item"><div class="vocab-word">never</div><div class="vocab-pt">nunca</div><div class="vocab-sentence">She <em>never</em> handles logistics alone. He <em>never</em> misses the morning field check.</div></div>
+        <div class="vocab-item"><div class="vocab-word">farm</div><div class="vocab-pt">fazenda</div><div class="vocab-sentence">He works at a large <em>farm</em> in Mato Grosso. She visits the <em>farm</em> every Thursday.</div></div>
+        <div class="vocab-item"><div class="vocab-word">field</div><div class="vocab-pt">campo</div><div class="vocab-sentence">He always checks the soybean <em>field</em> before noon. She doesn't work in the <em>field</em>.</div></div>
+        <div class="vocab-item"><div class="vocab-word">crop</div><div class="vocab-pt">lavoura / plantio</div><div class="vocab-sentence">His main responsibility is <em>crop</em> planning and quality.</div></div>
+        <div class="vocab-item"><div class="vocab-word">harvest</div><div class="vocab-pt">safra / colheita</div><div class="vocab-sentence">He sometimes works overtime during <em>harvest</em> season.</div></div>
+        <div class="vocab-item"><div class="vocab-word">intense</div><div class="vocab-pt">intenso/a</div><div class="vocab-sentence">The harvest season is very <em>intense</em>. His schedule is very <em>intense</em> during planting season.</div></div>
+      </div>
+      <div class="callout callout-green" style="margin-top:14px"><strong>Posição dos advérbios: </strong><span>Sempre ANTES do verbo principal: He <strong>always</strong> arrives. She <strong>never</strong> travels alone. He <strong>sometimes</strong> works overtime.</span></div>
+    </div>
+  </div>
+
+  <!-- DRILL NEGATIVA -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">🔥</div>
+      <div><div class="card-title">Part 2 — Drill 1: Negativa</div><div class="card-subtitle">He/She + doesn't + verbo base</div></div>
+    </div>
+    <div class="card-body">
+      <button class="check-all-btn" onclick="checkAll('d2-neg')">Checar Drill Negativa</button>
+<div class="score-box" id="score-d2-neg"></div>
+<div class="exercise-label">Transforme em negativo com He doesn't / She doesn't</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>He manages the office team.</p><input type="text" placeholder="He doesn't..." data-key="d2-neg-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-1]');checkField('d2-neg-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>She travels every week.</p><input type="text" placeholder="She doesn't..." data-key="d2-neg-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-2]');checkField('d2-neg-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He checks the office reports.</p><input type="text" placeholder="He doesn't..." data-key="d2-neg-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-3]');checkField('d2-neg-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>She handles the field operations.</p><input type="text" placeholder="She doesn't..." data-key="d2-neg-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-4]');checkField('d2-neg-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He visits the headquarters every day.</p><input type="text" placeholder="He doesn't..." data-key="d2-neg-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-5]');checkField('d2-neg-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>She coordinates the harvest team.</p><input type="text" placeholder="She doesn't..." data-key="d2-neg-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-neg-6]');checkField('d2-neg-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-neg-6"></div></div></div>
+    </div>
+  </div>
+
+  <!-- DRILL ADVÉRBIOS -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">⚡</div>
+      <div><div class="card-title">Part 2 — Drill 2: Advérbios de Frequência</div><div class="card-subtitle">Coloque o advérbio na posição correta</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Ordem: </strong><span>Sujeito + advérbio + verbo. Ex: He <strong>always</strong> checks the fields. She <strong>never</strong> travels alone.</span></div>
+      <button class="check-all-btn" onclick="checkAll('d2-adv')">Checar Drill Advérbios</button>
+<div class="score-box" id="score-d2-adv"></div>
+<div class="exercise-label">Complete com always / usually / sometimes / never</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>He ___ arrives early. (sempre)</p><input type="text" placeholder="He always..." data-key="d2-adv-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-1]');checkField('d2-adv-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>She ___ coordinates the morning shipments. (geralmente)</p><input type="text" placeholder="She usually..." data-key="d2-adv-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-2]');checkField('d2-adv-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He ___ works overtime during harvest. (às vezes)</p><input type="text" placeholder="He sometimes..." data-key="d2-adv-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-3]');checkField('d2-adv-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>She ___ handles logistics alone. (nunca)</p><input type="text" placeholder="She never..." data-key="d2-adv-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-4]');checkField('d2-adv-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He ___ visits at least two farms a week. (geralmente)</p><input type="text" placeholder="He usually..." data-key="d2-adv-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-5]');checkField('d2-adv-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>She ___ checks the crop quality report. (sempre)</p><input type="text" placeholder="She always..." data-key="d2-adv-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d2-adv-6]');checkField('d2-adv-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d2-adv-6"></div></div></div>
+    </div>
+  </div>
+
+  <!-- VOCAB CHECK -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📝</div>
+      <div><div class="card-title">Vocabulary Check — Dia 2</div><div class="card-subtitle">3 palavras com definição e frase própria</div></div>
+    </div>
+    <div class="card-body">
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d2-vc1-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d2-vc1-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase com He/She + advérbio" data-key="d2-vc1-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d2-vc1-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d2-vc1-s"></div></p>
+      </div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d2-vc2-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d2-vc2-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase com He/She + advérbio" data-key="d2-vc2-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d2-vc2-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d2-vc2-s"></div></p>
+      </div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d2-vc3-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d2-vc3-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="frase com He/She + advérbio" data-key="d2-vc3-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d2-vc3-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d2-vc3-s"></div></p>
+      </div></div>
+    </div>
+  </div>
+
+</div><!-- /day-2 -->
+
+
+<!-- ══════════════════════ DIA 3 ══════════════════════ -->
+<div class="day-panel" id="day-3">
+
+  <div class="day-intro">
+    <div class="day-number">3</div>
+    <div class="day-intro-content">
+      <h2>Does he/she...? + But/Because + Vocab de Função</h2>
+      <p>Hoje você aprende a fazer perguntas sobre colegas e a conectar duas ideias com but e because. Mais vocabulário de função profissional.</p>
+      <div class="day-meta">
+        <span class="day-pill">📹 Vídeo aula incluído</span>
+        <span class="day-pill">📖 6 palavras novas</span>
+        <span class="day-pill">⏱ 25 minutos</span>
+      </div>
+      <a class="video-btn" href="https://youtu.be/_5PqQHIgdrg" target="_blank">▶ Assistir Vídeo — Dia 3</a>
+    </div>
+  </div>
+
+  <!-- CONTRASTE -->
+  <div class="card card-amber">
+    <div class="card-header">
+      <div class="card-icon">🔄</div>
+      <div><div class="card-title">Desafio de Contraste — Dia 3</div><div class="card-subtitle">Does he/she? vs. Is he/she? — qual usar?</div></div>
+    </div>
+    <div class="card-body">
+      <div class="contrast-box">
+        <div class="contrast-label">Ação → DOES HE/SHE? · Identidade/Status → IS HE/SHE?</div>
+        <table class="contrast-table">
+          <tr><td>Does he manage the team?</td><td>/</td><td>Is he the manager?</td></tr>
+          <tr><td>Does she travel to farms?</td><td>/</td><td>Is she at the farm?</td></tr>
+          <tr><td>Does he coordinate logistics?</td><td>/</td><td>Is he available?</td></tr>
+          <tr><td>Does she handle reports?</td><td>/</td><td>Is she the coordinator?</td></tr>
+        </table>
+      </div>
+      <div class="callout callout-amber"><strong>Regra rápida: </strong><span>Se a resposta é uma AÇÃO → Does he/she? Se a resposta é quem/como/onde ELE/ELA É → Is he/she?</span></div>
+    </div>
+  </div>
+
+  <!-- VOCAB DIA 3 -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📚</div>
+      <div><div class="card-title">Vocabulário do Dia 3 — Função Profissional + Conectores</div><div class="card-subtitle">10 palavras · Revise também tudo dos Dias 1 e 2 antes de começar</div></div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+      <div class="fc-wrapper" id="fc-d3">
+        <div class="voice-row">
+          <span class="voice-label">Voz:</span>
+          <span class="voices-loading" id="v-loading-d3">Carregando vozes...</span>
+          <div id="v-btns-d3" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+        <div class="fc-dots" id="fc-dots-d3"></div>
+        <div class="fc-nav-row">
+          <span class="fc-counter" id="fc-counter-d3">1 de 10</span>
+          <div class="fc-arrows">
+            <button class="fc-arrow" onclick="fcNav('d3',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="fc-arrow" onclick="fcNav('d3',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="flashcard" onclick="handleCardClick(event,'d3')">
+          <div class="fc-front" id="fc-front-d3">
+            <div class="fc-side-label">Toque para ver a tradução</div>
+            <div class="fc-step-label" id="fc-step-d3"></div>
+            <div class="fc-word" id="fc-word-d3"></div>
+            <div class="fc-ipa" id="fc-ipa-d3"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-word-d3" onclick="sayWord('d3')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button>
+              <button class="spd-btn active" id="spd1-d3" onclick="setSpd('d3',1,event)">1×</button>
+              <button class="spd-btn" id="spd07-d3" onclick="setSpd('d3',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-hint">Toque para ver tradução e uso real</div>
+          </div>
+          <div class="fc-back" id="fc-back-d3">
+            <div class="fc-side-label">Tradução e uso real</div>
+            <div class="fc-translation" id="fc-trans-d3"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-ex-d3" onclick="sayEx('d3')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button>
+              <button class="spd-btn active" id="exspd1-d3" onclick="setExSpd('d3',1,event)">1×</button>
+              <button class="spd-btn" id="exspd07-d3" onclick="setExSpd('d3',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-example" id="fc-ex-d3"></div>
+            <div class="fc-example-pt" id="fc-ex-pt-d3"></div>
+            <div class="fc-why" id="fc-why-d3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-green" style="display:none"><strong>Revisão obrigatória: </strong><span>Antes de ler as palavras novas, volte aos Dias 1 e 2 e leia todas as suas anotações do Vocabulary Check em voz alta.</span></div>
+      <div class="vocab-grid">
+        <div class="vocab-item"><div class="vocab-word">because</div><div class="vocab-pt">porque</div><div class="vocab-sentence">She travels <em>because</em> the client is in Santos. He works overtime <em>because</em> it is harvest season.</div></div>
+        <div class="vocab-item"><div class="vocab-word">but</div><div class="vocab-pt">mas</div><div class="vocab-sentence">He checks the crops <em>but</em> she handles the reports. She travels <em>but</em> she doesn't manage the field team.</div></div>
+        <div class="vocab-item"><div class="vocab-word">main role</div><div class="vocab-pt">função principal</div><div class="vocab-sentence">His <em>main role</em> is crop planning. Her <em>main role</em> is to coordinate shipments.</div></div>
+        <div class="vocab-item"><div class="vocab-word">schedule</div><div class="vocab-pt">agenda / cronograma</div><div class="vocab-sentence">Her <em>schedule</em> is very busy during harvest. His <em>schedule</em> starts at 5am every day.</div></div>
+        <div class="vocab-item"><div class="vocab-word">responsible for</div><div class="vocab-pt">responsável por</div><div class="vocab-sentence">He is <em>responsible for</em> crop quality at AgroBrasil.</div></div>
+        <div class="vocab-item"><div class="vocab-word">agronomist</div><div class="vocab-pt">agrônomo/a</div><div class="vocab-sentence">He is the <em>agronomist</em>. He manages crop planning and checks the fields every day.</div></div>
+        <div class="vocab-item"><div class="vocab-word">all reports</div><div class="vocab-pt">todos os relatórios</div><div class="vocab-sentence">She is responsible for <em>all reports</em> for the board. He handles <em>all reports</em> for the team.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRILL PERGUNTAS -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">🔥</div>
+      <div><div class="card-title">Part 3 — Drill: Does he/she...?</div><div class="card-subtitle">Transforme em pergunta + responda</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Estrutura: </strong><span>Does + he/she + verbo base? → Yes, he/she does. / No, he/she doesn't.</span></div>
+      <button class="check-all-btn" onclick="checkAll('d3-q')">Checar Drill Does he/she?</button>
+<div class="score-box" id="score-d3-q"></div>
+<div class="exercise-label">Transforme em pergunta e responda</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>He manages the crop planning.</p>
+        <input type="text" placeholder="Does he...?" data-key="d3-q-1" style="margin-bottom:6px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-q-1]');checkField('d3-q-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-q-1"></div>
+        <input type="text" placeholder="Yes, he does. / No, he doesn't." data-key="d3-qa-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-qa-1]');checkField('d3-qa-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-qa-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>She travels to Santos every month.</p>
+        <input type="text" placeholder="Does she...?" data-key="d3-q-2" style="margin-bottom:6px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-q-2]');checkField('d3-q-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-q-2"></div>
+        <input type="text" placeholder="Yes, she does. / No, she doesn't." data-key="d3-qa-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-qa-2]');checkField('d3-qa-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-qa-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He checks the soybean fields every morning.</p>
+        <input type="text" placeholder="Does he...?" data-key="d3-q-3" style="margin-bottom:6px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-q-3]');checkField('d3-q-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-q-3"></div>
+        <input type="text" placeholder="Yes, he does. / No, he doesn't." data-key="d3-qa-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-qa-3]');checkField('d3-qa-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-qa-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>She coordinates the warehouse team.</p>
+        <input type="text" placeholder="Does she...?" data-key="d3-q-4" style="margin-bottom:6px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-q-4]');checkField('d3-q-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-q-4"></div>
+        <input type="text" placeholder="Yes, she does. / No, she doesn't." data-key="d3-qa-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-qa-4]');checkField('d3-qa-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-qa-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He handles international reports.</p>
+        <input type="text" placeholder="Does he...?" data-key="d3-q-5" style="margin-bottom:6px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-q-5]');checkField('d3-q-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-q-5"></div>
+        <input type="text" placeholder="Yes, he does. / No, he doesn't." data-key="d3-qa-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-qa-5]');checkField('d3-qa-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-qa-5"></div></div></div>
+    </div>
+  </div>
+
+  <!-- DRILL ADVÉRBIOS DIA 3 -->
+  <div class="card card-navy">
+    <div class="card-header"><div class="card-icon">⚡</div>
+      <div><div class="card-title">Part 3 — Drill 2: Advérbios de Frequência</div><div class="card-subtitle">Reescriva a frase com o advérbio na posição correta</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Lembre: </strong><span>O advérbio fica ENTRE o sujeito e o verbo: He <strong>always</strong> works. She <strong>never</strong> travels by herself.</span></div>
+      <button class="check-all-btn" onclick="checkAll('d3-adv2')">Checar Drill Advérbios</button>
+<div class="score-box" id="score-d3-adv2"></div>
+<div class="exercise-label">Reescreva incluindo o advérbio entre parênteses</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>He works overtime during harvest. (sometimes)</p><input type="text" placeholder="He sometimes works..." data-key="d3-adv2-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-1]');checkField('d3-adv2-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>She checks the reports in the morning. (always)</p><input type="text" placeholder="She always checks..." data-key="d3-adv2-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-2]');checkField('d3-adv2-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He visits the headquarters. (never)</p><input type="text" placeholder="He never visits..." data-key="d3-adv2-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-3]');checkField('d3-adv2-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>She travels to partner farms on Mondays. (usually)</p><input type="text" placeholder="She usually travels..." data-key="d3-adv2-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-4]');checkField('d3-adv2-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He eats at the canteen with his team. (always)</p><input type="text" placeholder="He always eats..." data-key="d3-adv2-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-5]');checkField('d3-adv2-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>She works at the office on Fridays. (sometimes)</p><input type="text" placeholder="She sometimes works..." data-key="d3-adv2-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-adv2-6]');checkField('d3-adv2-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-adv2-6"></div></div></div>
+    </div>
+  </div>
+
+  <!-- BUT/BECAUSE -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">🔗</div>
+      <div><div class="card-title">Part 3 — Exercise: But / Because</div><div class="card-subtitle">Conecte as duas ideias em uma frase só</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Because = </strong><span>explica o motivo. <strong>But = </strong>contrasta duas ideias. Ambos conectam duas frases em uma.</span></div>
+      <button class="check-all-btn" onclick="checkAll('d3-bb')">Checar But/Because</button>
+<div class="score-box" id="score-d3-bb"></div>
+<div class="exercise-label">Complete com but ou because</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>He checks the crops ___ she handles the reports.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-1]');checkField('d3-bb-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>She travels ___ the client is in Santos.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-2]');checkField('d3-bb-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He manages the crop planning ___ he doesn't coordinate logistics.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-3]');checkField('d3-bb-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>Her schedule is busy ___ she manages three departments.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-4]');checkField('d3-bb-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He sometimes works overtime ___ it is harvest season.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-5]');checkField('d3-bb-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>She coordinates the shipments ___ she never handles the field team.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-6]');checkField('d3-bb-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-6"></div></div></div>
+      <div class="ex-item"><div class="ex-num">7.</div><div class="ex-content"><p>He always arrives early ___ his schedule starts at 5am.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-7">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-7]');checkField('d3-bb-7',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-7"></div></div></div>
+      <div class="ex-item"><div class="ex-num">8.</div><div class="ex-content"><p>She is responsible for all reports ___ she doesn't visit the farms.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-8">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-8]');checkField('d3-bb-8',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-8"></div></div></div>
+      <div class="ex-item"><div class="ex-num">9.</div><div class="ex-content"><p>He works in the field ___ he doesn't have an office.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-9">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-9]');checkField('d3-bb-9',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-9"></div></div></div>
+      <div class="ex-item"><div class="ex-num">10.</div><div class="ex-content"><p>She usually travels on Mondays ___ her team handles the shipments.</p><input type="text" placeholder="but ou because?" data-key="d3-bb-10">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d3-bb-10]');checkField('d3-bb-10',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d3-bb-10"></div></div></div>
+      <div class="exercise-label" style="margin-top:20px">Agora escreva 2 frases suas</div>
+      <div class="ex-item"><div class="ex-num">A.</div><div class="ex-content"><input type="text" placeholder="He/She ___ but he/she ___." data-key="d3-bb-own1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d3-bb-own1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d3-bb-own1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">B.</div><div class="ex-content"><input type="text" placeholder="He/She ___ because ___." data-key="d3-bb-own2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d3-bb-own2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d3-bb-own2"></div></div></div>
+    </div>
+  </div>
+
+  <!-- VOCAB CHECK -->
+  <div class="card card-green">
+    <div class="card-header">
+      <div class="card-icon">📝</div>
+      <div><div class="card-title">Vocabulary Check — Dia 3</div><div class="card-subtitle">2 palavras novas + revisão de tudo dos Dias 1 e 2</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-green"><strong>Revisão: </strong><span>Releia todas as palavras anotadas nos Dias 1 e 2. Tente dizer cada frase de memória antes de anotar as palavras de hoje.</span></div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d3-vc1-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d3-vc1-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="use but ou because na frase" data-key="d3-vc1-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d3-vc1-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d3-vc1-s"></div></p>
+      </div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content">
+        <p>Word: <input type="text" class="inline-input" placeholder="palavra" data-key="d3-vc2-w" style="width:140px"></p>
+        <p>Definition: <input type="text" placeholder="definição" data-key="d3-vc2-d" style="margin-top:6px"></p>
+        <p>My sentence: <input type="text" placeholder="use but ou because na frase" data-key="d3-vc2-s" style="margin-top:6px">
+<div class="check-row"><button class="btn-example" onclick="checkField('d3-vc2-s', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d3-vc2-s"></div></p>
+      </div></div>
+    </div>
+  </div>
+
+</div><!-- /day-3 -->
+
+
+<!-- ══════════════════════ DIA 4 ══════════════════════ -->
+<div class="day-panel" id="day-4">
+
+  <div class="day-intro" style="background:var(--teal)">
+    <div class="day-number">4</div>
+    <div class="day-intro-content">
+      <h2>Listening — He/She em Ação</h2>
+      <p>Sem vídeo hoje. Você vai ouvir 3 áudios sobre a equipe da AgroBrasil. Leia as palavras e frases abaixo ANTES de dar play.</p>
+      <div class="day-meta">
+        <span class="day-pill">🎧 3 áudios</span>
+        <span class="day-pill">📖 4 palavras + 4 frases</span>
+        <span class="day-pill">⏱ 25 minutos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOCAB DIA 4 -->
+  <div class="card card-teal">
+    <div class="card-header">
+      <div class="card-icon">👁️</div>
+      <div><div class="card-title">Palavras dos áudios — leia ANTES de ouvir</div><div class="card-subtitle">10 palavras que aparecem nos 3 áudios</div></div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+      <div class="fc-wrapper fc-teal" id="fc-d4">
+        <div class="voice-row">
+          <span class="voice-label">Voz:</span>
+          <span class="voices-loading" id="v-loading-d4">Carregando vozes...</span>
+          <div id="v-btns-d4" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+        <div class="fc-dots" id="fc-dots-d4"></div>
+        <div class="fc-nav-row">
+          <span class="fc-counter" id="fc-counter-d4">1 de 10</span>
+          <div class="fc-arrows">
+            <button class="fc-arrow" onclick="fcNav('d4',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="fc-arrow" onclick="fcNav('d4',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="flashcard" onclick="handleCardClick(event,'d4')">
+          <div class="fc-front" id="fc-front-d4">
+            <div class="fc-side-label">Toque para ver a tradução</div>
+            <div class="fc-step-label" id="fc-step-d4"></div>
+            <div class="fc-word" id="fc-word-d4"></div>
+            <div class="fc-ipa" id="fc-ipa-d4"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-word-d4" onclick="sayWord('d4')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir termo</button>
+              <button class="spd-btn active" id="spd1-d4" onclick="setSpd('d4',1,event)">1×</button>
+              <button class="spd-btn" id="spd07-d4" onclick="setSpd('d4',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-hint">Toque para ver tradução e uso real</div>
+          </div>
+          <div class="fc-back" id="fc-back-d4">
+            <div class="fc-side-label">Tradução e uso real</div>
+            <div class="fc-translation" id="fc-trans-d4"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-ex-d4" onclick="sayEx('d4')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button>
+              <button class="spd-btn active" id="exspd1-d4" onclick="setExSpd('d4',1,event)">1×</button>
+              <button class="spd-btn" id="exspd07-d4" onclick="setExSpd('d4',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-example" id="fc-ex-d4"></div>
+            <div class="fc-example-pt" id="fc-ex-pt-d4"></div>
+            <div class="fc-why" id="fc-why-d4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-teal" style="display:none"><strong>Instrução: </strong><span>Leia cada palavra em voz alta antes de dar play. Você vai reconhecer essas palavras nos 3 áudios!</span></div>
+      <div class="vocab-grid">
+        <div class="vocab-item"><div class="vocab-word">soil</div><div class="vocab-pt">solo / terra</div><div class="vocab-sentence">He checks the <em>soil</em> quality every morning. The <em>soil</em> is very important for the crops.</div></div>
+        <div class="vocab-item"><div class="vocab-word">port</div><div class="vocab-pt">porto</div><div class="vocab-sentence">She travels to Santos every month — we work with the <em>port</em> there for our exports.</div></div>
+        <div class="vocab-item"><div class="vocab-word">miss</div><div class="vocab-pt">perder / não comparecer</div><div class="vocab-sentence">He never <em>misses</em> the morning field check. She never <em>misses</em> a meeting.</div></div>
+        <div class="vocab-item"><div class="vocab-word">deadline</div><div class="vocab-pt">prazo / data limite</div><div class="vocab-sentence">She never <em>misses</em> a <em>deadline</em>. The <em>deadline</em> for the report is on Friday.</div></div>
+        <div class="vocab-item"><div class="vocab-word">shipments</div><div class="vocab-pt">remessas / carregamentos</div><div class="vocab-sentence">Patricia coordinates all <em>shipments</em>. The <em>shipments</em> arrive at the port in Santos every month.</div></div>
+        <div class="vocab-item"><div class="vocab-word">quality</div><div class="vocab-pt">qualidade</div><div class="vocab-sentence">His main role is crop <em>quality</em>. He checks the <em>quality</em> of the soybean fields every morning.</div></div>
+        <div class="vocab-item"><div class="vocab-word">what about</div><div class="vocab-pt">e quanto a...? / e o/a...?</div><div class="vocab-sentence">"<em>What about</em> Felipe?" — "He is our field technician." Use para perguntar sobre alguém novo.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--amber)"><div class="vocab-word" style="color:var(--amber)">board ↩ reforço</div><div class="vocab-pt">conselho / diretoria</div><div class="vocab-sentence">She handles all reports for the <em>board</em> in Australia. The <em>board</em> meets every quarter.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--amber)"><div class="vocab-word" style="color:var(--amber)">partner ↩ reforço</div><div class="vocab-pt">parceiro/a</div><div class="vocab-sentence">He visits <em>partner</em> farms every Thursday. They are our main <em>partner</em> in the region.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--amber)"><div class="vocab-word" style="color:var(--amber)">report ↩ reforço</div><div class="vocab-pt">relatório</div><div class="vocab-sentence">She handles all international <em>reports</em>. His main role is to prepare the weekly <em>report</em>.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--amber)"><div class="vocab-word" style="color:var(--amber)">overtime ↩ reforço</div><div class="vocab-pt">hora extra</div><div class="vocab-sentence">He sometimes works <em>overtime</em> during harvest. <em>Overtime</em> is very common in agribusiness.</div></div>
+      </div>
+        <div class="vocab-item" style="border-left:4px solid var(--teal)"><div class="vocab-word" style="color:var(--teal)">shipments</div><div class="vocab-pt">remessas / carregamentos</div><div class="vocab-sentence">She coordinates all <em>shipments</em>. The <em>shipments</em> leave Santos every week.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--teal)"><div class="vocab-word" style="color:var(--teal)">crop</div><div class="vocab-pt">lavoura / plantio ↩ reforço</div><div class="vocab-sentence">He manages the <em>crop</em> planning. The <em>crop</em> quality is very important for the cooperative.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--teal)"><div class="vocab-word" style="color:var(--teal)">quality</div><div class="vocab-pt">qualidade ↩ reforço</div><div class="vocab-sentence">His main role is crop <em>quality</em>. She checks the <em>quality</em> of every delivery.</div></div>
+        <div class="vocab-item" style="border-left:4px solid var(--teal)"><div class="vocab-word" style="color:var(--teal)">what about...?</div><div class="vocab-pt">e quanto a...? / e o/a...?</div><div class="vocab-sentence">"<em>What about</em> Felipe?" — "He is our field technician." Use para perguntar sobre alguém novo.</div></div>
+      <div class="callout callout-amber" style="margin-top:12px"><strong>↩ Reforço: </strong><span>As 4 últimas palavras você já viu na W5. Elas aparecem nos áudios em contexto novo — He/She + essas palavras.</span></div>
+    </div>
+  </div>
+
+  <!-- FRASES DO DIA 4 -->
+  <div class="card card-teal">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div><div class="card-title">Frases dos áudios — leia e identifique</div><div class="card-subtitle">Leia cada frase · identifique os verbos · escreva uma frase parecida</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-teal"><strong>Instrução: </strong><span>Para cada frase, identifique os verbos (He/She + -S/-ES) e o advérbio de frequência. Depois escreva uma frase parecida sobre um colega seu.</span></div>
+
+      <div class="phrase-card">
+        <div class="phrase-en">1. "He manages the crop planning and he always arrives early at the farm."</div>
+        <div class="phrase-tags"><span class="phrase-tag tag-do">manages</span><span class="phrase-tag tag-do">arrives</span><span class="phrase-tag tag-adv">always</span></div>
+        <div class="phrase-practice"><input type="text" placeholder="Escreva uma frase parecida: He/She ___ and he/she always ___." data-key="d4-ph-1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-ph-1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-ph-1"></div></div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-en">2. "She coordinates the shipments but she doesn't handle the logistics alone."</div>
+        <div class="phrase-tags"><span class="phrase-tag tag-do">coordinates</span><span class="phrase-tag tag-do">doesn't handle</span></div>
+        <div class="phrase-practice"><input type="text" placeholder="Use: She ___ but she doesn't ___." data-key="d4-ph-2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-ph-2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-ph-2"></div></div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-en">3. "Does he visit partner farms? Yes, he does — every Thursday."</div>
+        <div class="phrase-tags"><span class="phrase-tag tag-do">Does he visit?</span><span class="phrase-tag tag-do">Yes, he does</span></div>
+        <div class="phrase-practice"><input type="text" placeholder="Faça uma pergunta Does he/she ___? e responda." data-key="d4-ph-3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-ph-3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-ph-3"></div></div>
+      </div>
+
+      <div class="phrase-card">
+        <div class="phrase-en">4. "Her schedule is very busy because she manages three departments."</div>
+        <div class="phrase-tags"><span class="phrase-tag tag-tobe">Her schedule is</span><span class="phrase-tag tag-do">manages</span></div>
+        <div class="phrase-practice"><input type="text" placeholder="Use: His/Her schedule is ___ because he/she ___." data-key="d4-ph-4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-ph-4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-ph-4"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO 1 -->
+  <div class="card card-teal">
+    <div class="card-header">
+      <div class="card-icon">🎧</div>
+      <div><div class="card-title">Áudio 1 — Lucas: The Agronomist</div><div class="card-subtitle">True or False</div></div>
+    </div>
+    <div class="card-body">
+      <div class="audio-card">
+        <div class="audio-header"><span class="audio-badge">ÁUDIO 1</span><span class="audio-name">Lucas — True or False</span></div>
+        <div class="audio-instructions">1. Ouça 2x SEM ler as perguntas · 2. Responda · 3. Shadowing — repita junto</div>
+        <a href="https://drive.google.com/file/d/1tq3QM3dUWwBe3ILhwsBYkzGMdbwxN1KE/view" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:white;padding:10px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;text-decoration:none;margin-bottom:12px">🎧 Abrir Áudio 1</a>
+        <div class="script-toggle"><button class="btn-script" onclick="toggleScript('s1')">📄 Ver / Ocultar script</button></div>
+        <div class="script-box" id="s1">
+          "Hello! My name is Lucas. I am the agronomist at AgroBrasil. I manage the crop planning for the cooperative. My main role is crop quality. I always check the soybean fields in the morning — I never miss it. I usually visit two partner farms a week, and on Thursdays I always go to our main partner farm in Goias. I sometimes work overtime during harvest season because the schedule is very intense. I don't work at the office — I am always in the field. My schedule starts at 5am every day. I am responsible for crop quality, and I love my work!"
+        </div>
+      </div>
+      <button class="check-all-btn" onclick="checkAll('d4-a1')">Checar True/False</button>
+<div class="score-box" id="score-d4-a1"></div>
+<button class="check-all-btn" onclick="checkAll('d4-a2')">Checar Lacunas Patricia</button>
+<div class="score-box" id="score-d4-a2"></div>
+<div class="exercise-label">True (T) ou False (F)? Corrija as falsas.</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>His main role is logistics.</p><input type="text" placeholder="T ou F — se F, escreva a informação correta" data-key="d4-a1-1">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-1]');checkField('d4-a1-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>He always checks the fields in the morning.</p><input type="text" placeholder="T ou F" data-key="d4-a1-2">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-2]');checkField('d4-a1-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>He visits partner farms every Tuesday.</p><input type="text" placeholder="T ou F — se F, qual dia?" data-key="d4-a1-3">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-3]');checkField('d4-a1-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>He sometimes works overtime during harvest.</p><input type="text" placeholder="T ou F" data-key="d4-a1-4">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-4]');checkField('d4-a1-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>He works at the office every day.</p><input type="text" placeholder="T ou F — se F, onde ele trabalha?" data-key="d4-a1-5">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-5]');checkField('d4-a1-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>His schedule starts at 5am.</p><input type="text" placeholder="T ou F" data-key="d4-a1-6">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a1-6]');checkField('d4-a1-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a1-6"></div></div></div>
+    </div>
+  </div>
+
+  <!-- AUDIO 2 -->
+  <div class="card card-teal">
+    <div class="card-header">
+      <div class="card-icon">🎧</div>
+      <div><div class="card-title">Áudio 2 — Patricia: The Coordinator</div><div class="card-subtitle">Listen and Complete</div></div>
+    </div>
+    <div class="card-body">
+      <div class="audio-card">
+        <div class="audio-header"><span class="audio-badge">ÁUDIO 2</span><span class="audio-name">Patricia — Listen and Complete</span></div>
+        <div class="audio-instructions">1. Ouça 2x SEM ler as lacunas · 2. Complete · 3. Ouça para conferir</div>
+        <a href="https://drive.google.com/file/d/16nmcBykg3tnpTIL4AqI-AwyQy7526nKY/view" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:white;padding:10px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;text-decoration:none;margin-bottom:12px">🎧 Abrir Áudio 2</a>
+        <div class="script-toggle"><button class="btn-script" onclick="toggleScript('s2')">📄 Ver / Ocultar script</button></div>
+        <div class="script-box" id="s2">
+          "Hi! My name is Patricia. I am the logistics coordinator at AgroBrasil. I coordinate all shipments and I handle the warehouse team. My team has four people. My main role is to check that every delivery is on time. I usually work at the headquarters, but I also travel. I travel to Santos every month because we work with the port in Santos. I never handle the field operations — that is Lucas's job. I sometimes work overtime during harvest season because the schedule is very intense. My schedule is very busy but I love my team. I am responsible for all reports for the board in Australia. I never miss a deadline!"
+        </div>
+      </div>
+      <div class="dialogue-box" style="font-size:0.84rem">
+        "Hi! My name is Patricia. I am the logistics <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-1" style="width:110px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-1]');checkField('d4-a2-1',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-1"></div> at AgroBrasil. I <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-2" style="width:100px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-2]');checkField('d4-a2-2',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-2"></div> all shipments and I <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-3" style="width:90px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-3]');checkField('d4-a2-3',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-3"></div> the warehouse team. Our team has <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-4" style="width:60px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-4]');checkField('d4-a2-4',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-4"></div> people. My <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-5" style="width:80px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-5]');checkField('d4-a2-5',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-5"></div> <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-6" style="width:60px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-6]');checkField('d4-a2-6',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-6"></div> is to check that every <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-7" style="width:80px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-7]');checkField('d4-a2-7',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-7"></div> is on time. I <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-8" style="width:70px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-8]');checkField('d4-a2-8',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-8"></div> work at the headquarters, but I also <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-9" style="width:70px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-9]');checkField('d4-a2-9',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-9"></div>. I travel to Santos every month <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-10" style="width:80px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-10]');checkField('d4-a2-10',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-10"></div> we work with the port in <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-11" style="width:60px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-11]');checkField('d4-a2-11',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-11"></div> handle the field operations. I <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-12" style="width:80px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-12]');checkField('d4-a2-12',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-12"></div> work overtime during harvest season because the schedule is very intense. I am <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-13" style="width:110px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-13]');checkField('d4-a2-13',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-13"></div> all reports for the board. I never miss a <input type="text" class="inline-input" placeholder="____" data-key="d4-a2-14" style="width:90px">
+<div class="check-row"><button class="btn-check" onclick="(function(){var el=document.querySelector('[data-key=d4-a2-14]');checkField('d4-a2-14',el)})()">✓ Checar</button></div>
+<div class="feedback-box" id="fb-d4-a2-14"></div>!"
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO 3 -->
+  <div class="card card-teal">
+    <div class="card-header">
+      <div class="card-icon">🎧</div>
+      <div><div class="card-title">Áudio 3 — Ana & James: The Planning Meeting</div><div class="card-subtitle">Listen and Complete — mais complexo</div></div>
+    </div>
+    <div class="card-body">
+      <div class="audio-card">
+        <div class="audio-header"><span class="audio-badge">ÁUDIO 3</span><span class="audio-name">Ana & James — Planning Meeting</span></div>
+        <div class="audio-instructions">Este é o mais longo. Ouça 2x antes de completar. Foque no contexto primeiro.</div>
+        <a href="https://drive.google.com/file/d/1RsjXoKgBAKBj9mDHycYmtXHZsCqOOpFh/view" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:white;padding:10px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;text-decoration:none;margin-bottom:12px">🎧 Abrir Áudio 3</a>
+        <div class="script-toggle"><button class="btn-script" onclick="toggleScript('s3')">📄 Ver / Ocultar script</button></div>
+        <div class="script-box" id="s3">
+          <strong>JAMES:</strong> "Ana, does Lucas manage the crop planning alone?"<br>
+          <strong>ANA:</strong> "Yes, he does. His main role is crop quality and yield. He always works in the field — he never works at the office."<br>
+          <strong>JAMES:</strong> "Does he visit partner farms?"<br>
+          <strong>ANA:</strong> "Yes, he does. He usually visits two farms a week. His schedule starts very early because the fields need to be checked before noon."<br>
+          <strong>JAMES:</strong> "And Patricia — does she travel a lot?"<br>
+          <strong>ANA:</strong> "Yes, she does. She travels to Santos every month because we work with the port in Santos. But she usually works at the headquarters."<br>
+          <strong>JAMES:</strong> "Does she handle the reports for the board?"<br>
+          <strong>ANA:</strong> "Yes! She is responsible for all international reports. Her schedule is very busy but she never misses a deadline.""<br>
+          <strong>JAMES:</strong> "What about Felipe?"<br>
+          <strong>ANA:</strong> "Felipe is our field technician. He doesn't work at the office at all. He checks the soil quality and he coordinates the harvest team. He sometimes works overtime during harvest season because it is very intense."<br>
+          <strong>JAMES:</strong> "Does he manage a team?"<br>
+          <strong>ANA:</strong> "Yes, he manages the harvest team — but his main role is technical."
+        </div>
+      </div>
+      <div class="exercise-label">Responda sobre o áudio</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>Does Lucas work at the office?</p><input type="text" placeholder="No, he doesn't. He..." data-key="d4-a3-1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>Does he visit partner farms?</p><input type="text" placeholder="Yes, he does. He usually..." data-key="d4-a3-2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>Does Patricia travel?</p><input type="text" placeholder="Yes, she does. She travels to..." data-key="d4-a3-3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>What is she responsible for?</p><input type="text" placeholder="She is responsible for..." data-key="d4-a3-4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>Does Felipe work at the office?</p><input type="text" placeholder="No, he doesn't. He..." data-key="d4-a3-5">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-5', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>Does he sometimes work overtime?</p><input type="text" placeholder="Yes, he does. He sometimes works overtime because..." data-key="d4-a3-6">
+<div class="check-row"><button class="btn-example" onclick="checkField('d4-a3-6', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d4-a3-6"></div></div></div>
+    </div>
+  </div>
+
+</div><!-- /day-4 -->
+
+
+<!-- ══════════════════════ DIA 5 ══════════════════════ -->
+<div class="day-panel" id="day-5">
+
+  <div class="day-intro" style="background:var(--navy)">
+    <div class="day-number">5</div>
+    <div class="day-intro-content">
+      <h2>Produção Total — Sua Função e a do Seu Colega</h2>
+      <p>Sem vídeo. Sem palavras novas. Hoje você usa TUDO que aprendeu esta semana para falar sobre você e sobre um colega real. Chegue na aula pronto!</p>
+      <div class="day-meta">
+        <span class="day-pill">✍️ 3 Partes de Produção</span>
+        <span class="day-pill">🌾 Mini-Project</span>
+        <span class="day-pill">⏱ 25 minutos</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FLASHCARD DIA 5 — CHUNKS -->
+  <div class="card card-navy" style="background:var(--navy-light);border-left:4px solid var(--navy)">
+    <div class="card-header">
+      <div class="card-icon" style="background:#d0dcf0">📚</div>
+      <div><div class="card-title">Vocabulário do Dia 5 — 10 chunks para a aula</div>
+      <div class="card-subtitle">Ouça cada chunk · vire o card · veja quando usar na aula ao vivo</div></div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px">Ouça o termo antes de virar o card. No verso, ouça a frase completa em contexto.</p>
+      <div class="fc-wrapper fc-navy" id="fc-d5">
+        <div class="voice-row">
+          <span class="voice-label">Voz:</span>
+          <span class="voices-loading" id="v-loading-d5">Carregando vozes...</span>
+          <div id="v-btns-d5" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+        <div class="fc-dots" id="fc-dots-d5"></div>
+        <div class="fc-nav-row">
+          <span class="fc-counter" id="fc-counter-d5">1 de 10</span>
+          <div class="fc-arrows">
+            <button class="fc-arrow" onclick="fcNav('d5',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="fc-arrow" onclick="fcNav('d5',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <div class="flashcard" onclick="handleCardClick(event,'d5')">
+          <div class="fc-front" id="fc-front-d5">
+            <div class="fc-side-label">Toque para ver a tradução</div>
+            <div class="fc-step-label" id="fc-step-d5"></div>
+            <div class="fc-word" id="fc-word-d5"></div>
+            <div class="fc-ipa" id="fc-ipa-d5"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-word-d5" onclick="sayWord('d5')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir chunk</button>
+              <button class="spd-btn active" id="spd1-d5" onclick="setSpd('d5',1,event)">1×</button>
+              <button class="spd-btn" id="spd07-d5" onclick="setSpd('d5',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-hint">Toque para ver quando usar</div>
+          </div>
+          <div class="fc-back" id="fc-back-d5">
+            <div class="fc-side-label">Quando usar</div>
+            <div class="fc-translation" id="fc-trans-d5"></div>
+            <div class="audio-btns" onclick="event.stopPropagation()">
+              <button class="abtn" id="abtn-ex-d5" onclick="sayEx('d5')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Ouvir frase</button>
+              <button class="spd-btn active" id="exspd1-d5" onclick="setExSpd('d5',1,event)">1×</button>
+              <button class="spd-btn" id="exspd07-d5" onclick="setExSpd('d5',0.7,event)">0.7×</button>
+            </div>
+            <div class="fc-example" id="fc-ex-d5"></div>
+            <div class="fc-example-pt" id="fc-ex-pt-d5"></div>
+            <div class="fc-why" id="fc-why-d5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVISÃO + FRASES DE CONSOLIDAÇÃO -->
+  <div class="card card-amber">
+    <div class="card-header">
+      <div class="card-icon">🔁</div>
+      <div><div class="card-title">Revisão Rápida + Frases de Consolidação</div><div class="card-subtitle">3 minutos — releia o vocab e pratique as frases abaixo em voz alta</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-amber"><strong>Instrução: </strong><span>Antes de começar, volte aos Dias 1, 2 e 3 e leia todas as suas anotações do Vocabulary Check em voz alta. Depois leia e pratique as frases abaixo — são o repertório que você vai usar na aula.</span></div>
+
+      <div class="exercise-label">Frases de consolidação — leia em voz alta 3x cada</div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">1. He manages ___ and he always ___. His main role is ___.</div>
+        <div class="consolidation-note">manages + always + His main role — use com Lucas ou colega real</div>
+        <input type="text" placeholder="Escreva sua versão sobre um colega real" data-key="d5-cons-1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-1"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">2. She coordinates ___ but she doesn't ___. Her team has ___.</div>
+        <div class="consolidation-note">coordinates + but + doesn't + Her team — use com Patricia ou colega real</div>
+        <input type="text" placeholder="Escreva sua versão" data-key="d5-cons-2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-2"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">3. Does he work at the farm? Yes, he does. / No, he doesn't — he works at the headquarters.</div>
+        <div class="consolidation-note">Does he? + short answer — pratique com um colega real</div>
+        <input type="text" placeholder="Escreva uma pergunta Does he/she ___? sobre um colega real" data-key="d5-cons-3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-3"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">4. She is responsible for ___ because her schedule includes ___.</div>
+        <div class="consolidation-note">responsible for + because — conecte função e motivo</div>
+        <input type="text" placeholder="Escreva sua versão" data-key="d5-cons-4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-4"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">5. He sometimes ___ but he never ___. His schedule is busy during ___.</div>
+        <div class="consolidation-note">sometimes + never + His schedule — advérbios de frequência em contraste</div>
+        <input type="text" placeholder="Escreva sua versão" data-key="d5-cons-5">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-5', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-5"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">6. My main role is ___. I am responsible for ___. I always ___ and I sometimes ___.</div>
+        <div class="consolidation-note">Sobre VOCÊ — use os verbos e advérbios da semana</div>
+        <input type="text" placeholder="Escreva sobre SUA função real" data-key="d5-cons-6">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-6', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-6"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">7. My colleague manages ___. His/Her schedule is ___ because ___.</div>
+        <div class="consolidation-note">Sobre um colega real — His/Her + because</div>
+        <input type="text" placeholder="Escreva sobre um colega real" data-key="d5-cons-7">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-7', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-7"></div>
+      </div>
+
+      <div class="consolidation-card">
+        <div class="consolidation-en">8. Does your colleague travel? Yes, he/she does. He/She visits ___ every ___.</div>
+        <div class="consolidation-note">Pergunta Does? + resposta completa sobre colega real</div>
+        <input type="text" placeholder="Escreva pergunta e resposta sobre um colega" data-key="d5-cons-8">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-cons-8', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-cons-8"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 6 — PARTE A -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">🙋</div>
+      <div><div class="card-title">Part 6 — Parte A: Sobre Você Mesmo</div><div class="card-subtitle">Responda com frases completas usando o vocab desta semana</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Use os verbos da semana: </strong><span>manage / coordinate / check / visit / handle / travel — e os possessivos my / his / her</span></div>
+      <div class="exercise-label">Responda sobre SUA função real na empresa</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>What do YOU do? What is your main role?</p><input type="text" placeholder="My main role is ___. I manage / coordinate / handle..." data-key="d5-a-1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>Do you manage a team? How many people?</p><input type="text" placeholder="Yes, I do. My team has ___ people. / No, I don't." data-key="d5-a-2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>Do you coordinate any activities? What do you coordinate?</p><input type="text" placeholder="Yes, I coordinate ___. / No, I don't." data-key="d5-a-3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>Do you travel for work? Where do you go?</p><input type="text" placeholder="Yes, I travel to ___. / No, I don't travel." data-key="d5-a-4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>What does your schedule look like? Is it busy?</p><input type="text" placeholder="My schedule is ___ because ___." data-key="d5-a-5">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-5', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>Do you work overtime? When?</p><input type="text" placeholder="Yes, I sometimes work overtime during ___. / No, I never work overtime." data-key="d5-a-6">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-6', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-6"></div></div></div>
+      <div class="ex-item"><div class="ex-num">7.</div><div class="ex-content"><p>What are you responsible for?</p><input type="text" placeholder="I am responsible for ___." data-key="d5-a-7">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-7', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-7"></div></div></div>
+      <div class="ex-item"><div class="ex-num">8.</div><div class="ex-content"><p>Frase completa: My main role is ___ and I always ___. I am responsible for ___ because ___.</p><textarea rows="2" placeholder="Escreva a frase completa sobre você" data-key="d5-a-8"></textarea>
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-a-8', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-a-8"></div></div></div>
+    </div>
+  </div>
+
+  <!-- PART 6 — PARTE B -->
+  <div class="card card-navy">
+    <div class="card-header">
+      <div class="card-icon">👥</div>
+      <div><div class="card-title">Part 6 — Parte B: Sobre um Colega Real</div><div class="card-subtitle">Escolha um colega e responda usando He/She + vocab da semana</div></div>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-navy"><strong>Colega escolhido: </strong><span><input type="text" class="inline-input" placeholder="nome do colega" data-key="d5-b-name" style="width:180px"> — cargo: <input type="text" class="inline-input" placeholder="cargo" data-key="d5-b-role" style="width:180px"></span></div>
+      <div class="exercise-label">Responda sobre ele/ela</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><p>What does your colleague do?</p><input type="text" placeholder="He/She manages / coordinates / handles..." data-key="d5-b-1">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-1"></div></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><p>What is his/her main role?</p><input type="text" placeholder="His/Her main role is ___." data-key="d5-b-2">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-2', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-2"></div></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><p>Does he/she manage a team?</p><input type="text" placeholder="Yes, he/she does. His/Her team has ___ people." data-key="d5-b-3">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-3', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-3"></div></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><p>Does he/she travel? Where?</p><input type="text" placeholder="Yes, he/she travels to ___. / No, he/she doesn't." data-key="d5-b-4">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-4', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-4"></div></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><p>Does he/she work overtime?</p><input type="text" placeholder="Yes, he/she sometimes works overtime during ___." data-key="d5-b-5">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-5', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-5"></div></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><p>What is he/she responsible for?</p><input type="text" placeholder="He/She is responsible for ___." data-key="d5-b-6">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-6', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-6"></div></div></div>
+      <div class="ex-item"><div class="ex-num">7.</div><div class="ex-content"><p>Why is his/her schedule busy?</p><input type="text" placeholder="His/Her schedule is busy because ___." data-key="d5-b-7">
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-7', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-7"></div></div></div>
+      <div class="ex-item"><div class="ex-num">8.</div><div class="ex-content"><p>Speak 2 minutes — escreva suas notas aqui:</p><textarea rows="3" placeholder="He/She manages ___ and he/she always ___. His/Her main role is ___. He/She is responsible for ___ because ___. He/She sometimes ___ but he/she never ___." data-key="d5-b-8"></textarea>
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-b-8', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-b-8"></div></div></div>
+    </div>
+  </div>
+
+  <!-- PART 6 — PARTE C -->
+  <div class="card" style="border: 2px solid var(--green)">
+    <div class="card-header" style="background: linear-gradient(135deg, var(--green-pale), var(--navy-light))">
+      <div class="card-icon" style="background:var(--green-light)">🌾</div>
+      <div>
+        <div class="card-title" style="color:var(--green)">Part 7 — Mini-Project: Team Planning Report</div>
+        <div class="card-subtitle">4 Tasks — prepare tudo para a aula ao vivo!</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="mini-project-box">
+        <h4>📋 Task 1 — Team Planning Report</h4>
+        <p>Escreva um mini-relatório de equipe com 4-6 frases descrevendo 2 colegas reais. Formato profissional para um parceiro internacional.</p>
+      </div>
+      <div class="callout callout-green"><strong>Template: </strong><span>"This is our team report. [Name] manages ___. His/Her main role is ___. He/She always ___ and sometimes ___. He/She doesn't ___. [Name 2] coordinates ___. Her/His schedule is busy because ___."</span></div>
+      <textarea rows="6" data-key="d5-mp-t1" placeholder="This is our team report. [Name] manages ___. His/Her main role is ___. He/She always ___ and sometimes ___. He/She doesn't ___. [Name 2] coordinates ___. Her/His schedule is busy because ___."></textarea>
+<div class="check-row"><button class="btn-example" onclick="checkField('d5-mp-t1', null)" style="margin-top:4px">💡 Ver exemplo</button></div>
+<div class="feedback-box" id="fb-d5-mp-t1"></div>
+
+      <div class="mini-project-box" style="margin-top:20px">
+        <h4>❓ Task 2 — Perguntas para o Professor</h4>
+        <p>Prepare 6 perguntas com Does he/she...? para fazer ao professor na aula. O professor vai responder como um membro fictício da equipe da AgroBrasil.</p>
+      </div>
+      <div class="exercise-label">Minhas perguntas para o professor</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp1"></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp2"></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp3"></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp4"></div></div>
+      <div class="ex-item"><div class="ex-num">5.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp5"></div></div>
+      <div class="ex-item"><div class="ex-num">6.</div><div class="ex-content"><input type="text" placeholder="Does he/she ___?" data-key="d5-mp-qp6"></div></div>
+
+      <div class="mini-project-box" style="margin-top:20px">
+        <h4>🔍 Task 3 — Perguntas para Colegas</h4>
+        <p>Prepare 4 perguntas para fazer a outro aluno sobre o COLEGA DELE. Use Does your colleague...? e His/Her.</p>
+      </div>
+      <div class="exercise-label">Minhas perguntas para colegas de turma</div>
+      <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><input type="text" placeholder="Does your colleague ___?" data-key="d5-mp-qc1"></div></div>
+      <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><input type="text" placeholder="Does your colleague ___?" data-key="d5-mp-qc2"></div></div>
+      <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><input type="text" placeholder="What is his/her ___?" data-key="d5-mp-qc3"></div></div>
+      <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><input type="text" placeholder="Does his/her schedule ___?" data-key="d5-mp-qc4"></div></div>
+
+      <div class="mini-project-box" style="margin-top:20px">
+        <h4>📝 Task 4 — Notas da Entrevista</h4>
+        <p>Na aula, entreviste um colega com as perguntas da Task 3. Anote as respostas e apresente o mini-perfil em 1 minuto para a turma.</p>
+      </div>
+      <div style="background:var(--gray);border-radius:8px;padding:16px">
+        <p style="font-size:0.85rem;margin-bottom:10px"><strong>Colega entrevistado:</strong> <input type="text" class="inline-input" placeholder="nome" data-key="d5-int-name" style="width:160px"> · Cargo do colega dele/dela: <input type="text" class="inline-input" placeholder="cargo" data-key="d5-int-role" style="width:160px"></p>
+        <div class="ex-item"><div class="ex-num">1.</div><div class="ex-content"><input type="text" placeholder="resposta" data-key="d5-int-1"></div></div>
+        <div class="ex-item"><div class="ex-num">2.</div><div class="ex-content"><input type="text" placeholder="resposta" data-key="d5-int-2"></div></div>
+        <div class="ex-item"><div class="ex-num">3.</div><div class="ex-content"><input type="text" placeholder="resposta" data-key="d5-int-3"></div></div>
+        <div class="ex-item"><div class="ex-num">4.</div><div class="ex-content"><input type="text" placeholder="resposta" data-key="d5-int-4"></div></div>
+        <p style="font-size:0.82rem;margin-top:14px;margin-bottom:8px"><strong>Mini-perfil para apresentar na aula:</strong></p>
+        <textarea rows="3" data-key="d5-int-present" placeholder="This is [name]'s colleague. He/She manages ___ and he/she always ___. His/Her main role is ___ because ___."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /day-5 -->
+
+</main>
+
+<div class="save-bar">
+  <div class="save-info">Auto-salvo no navegador · <strong>Talk It Easy W6</strong></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-outline" onclick="clearAll()">Limpar</button>
+    <button class="btn btn-navy" onclick="exportPDF()">📥 Baixar com respostas</button>
+    <button class="btn btn-green" onclick="saveAll()">💾 Salvar</button>
+  </div>
+</div>
+
+<script>
+const CARDS = {
+  "d1": [
+    {
+      "step": "01 / 10",
+      "word": "manages",
+      "ipa": "",
+      "trans": "gerencia (ele/ela)",
+      "ex": "He manages the crop planning at AgroBrasil.",
+      "pt": "Ele gerencia o planejamento de lavoura na AgroBrasil.",
+      "why": "manage + S = manages. Verbo mais comum em cargos de gestao no agro."
+    },
+    {
+      "step": "02 / 10",
+      "word": "travels",
+      "ipa": "",
+      "trans": "viaja (ele/ela)",
+      "ex": "She travels to partner farms every week.",
+      "pt": "Ela viaja para fazendas parceiras toda semana.",
+      "why": "travel + S = travels. Patricia travels to Santos every month."
+    },
+    {
+      "step": "03 / 10",
+      "word": "coordinates",
+      "ipa": "",
+      "trans": "coordena (ele/ela)",
+      "ex": "He coordinates the field team every morning.",
+      "pt": "Ele coordena a equipe de campo toda manha.",
+      "why": "coordinate + S = coordinates. Fundamental em operacoes de campo."
+    },
+    {
+      "step": "04 / 10",
+      "word": "checks",
+      "ipa": "",
+      "trans": "verifica / inspeciona",
+      "ex": "She checks the soybean fields before noon.",
+      "pt": "Ela verifica os campos de soja antes do meio-dia.",
+      "why": "check + S = checks. Inspecao diaria e rotina do agronomo."
+    },
+    {
+      "step": "05 / 10",
+      "word": "visits",
+      "ipa": "",
+      "trans": "visita (ele/ela)",
+      "ex": "He visits partner farms on Thursdays.",
+      "pt": "Ele visita fazendas parceiras nas quintas-feiras.",
+      "why": "visit + S = visits. Lucas visita fazendas toda semana."
+    },
+    {
+      "step": "06 / 10",
+      "word": "handles",
+      "ipa": "",
+      "trans": "cuida de / lida com",
+      "ex": "She handles all international reports for the board.",
+      "pt": "Ela cuida de todos os relatorios internacionais para a diretoria.",
+      "why": "handle + S = handles. Patricia handles logistics na AgroBrasil."
+    },
+    {
+      "step": "07 / 10",
+      "word": "his",
+      "ipa": "",
+      "trans": "dele / seu (masculino)",
+      "ex": "His main role is crop planning. His team has 4 people.",
+      "pt": "Sua funcao principal e o planejamento de lavoura.",
+      "why": "My = His quando o sujeito e He. Possessivo masculino."
+    },
+    {
+      "step": "08 / 10",
+      "word": "her",
+      "ipa": "",
+      "trans": "dela / sua (feminino)",
+      "ex": "Her main role is logistics. Her schedule is very busy.",
+      "pt": "Sua funcao principal e logistica. Sua agenda e muito cheia.",
+      "why": "My = Her quando o sujeito e She. Possessivo feminino."
+    },
+    {
+      "step": "09 / 10",
+      "word": "during",
+      "ipa": "",
+      "trans": "durante",
+      "ex": "He works overtime during harvest season.",
+      "pt": "Ele faz hora extra durante a safra.",
+      "why": "during = preposicao de tempo. During harvest e expressao chave no agro."
+    },
+    {
+      "step": "10 / 10",
+      "word": "has (irregular!)",
+      "ipa": "",
+      "trans": "tem (ele/ela) - IRREGULAR!",
+      "ex": "He has a coffee break at 9am every day.",
+      "pt": "Ele toma um cafe as 9h todo dia.",
+      "why": "have = has com He/She. Unico irregular desta semana. Nunca 'he haves'!"
+    }
+  ],
+  "d2": [
+    {
+      "step": "01 / 10",
+      "word": "always",
+      "ipa": "",
+      "trans": "sempre",
+      "ex": "He always arrives early at the farm.",
+      "pt": "Ele sempre chega cedo na fazenda.",
+      "why": "always = 100% das vezes. Posicao: sujeito + always + verbo."
+    },
+    {
+      "step": "02 / 10",
+      "word": "usually",
+      "ipa": "",
+      "trans": "geralmente",
+      "ex": "She usually coordinates the morning shipments.",
+      "pt": "Ela geralmente coordena os embarques da manha.",
+      "why": "usually = ~80%. Posicao: sujeito + usually + verbo."
+    },
+    {
+      "step": "03 / 10",
+      "word": "sometimes",
+      "ipa": "",
+      "trans": "as vezes",
+      "ex": "He sometimes works overtime during harvest season.",
+      "pt": "As vezes ele faz hora extra durante a safra.",
+      "why": "sometimes = ~50%. Posicao: sujeito + sometimes + verbo."
+    },
+    {
+      "step": "04 / 10",
+      "word": "never",
+      "ipa": "",
+      "trans": "nunca",
+      "ex": "She never handles logistics alone.",
+      "pt": "Ela nunca cuida da logistica sozinha.",
+      "why": "never = 0%. Posicao: sujeito + never + verbo."
+    },
+    {
+      "step": "05 / 10",
+      "word": "farm",
+      "ipa": "",
+      "trans": "fazenda",
+      "ex": "He works at a large farm in Mato Grosso.",
+      "pt": "Ele trabalha em uma grande fazenda no Mato Grosso.",
+      "why": "farm = propriedade rural. Vocabulario central do agro."
+    },
+    {
+      "step": "06 / 10",
+      "word": "field",
+      "ipa": "",
+      "trans": "campo",
+      "ex": "He always checks the soybean field before noon.",
+      "pt": "Ele sempre verifica o campo de soja antes do meio-dia.",
+      "why": "field = area de plantio. He works in the field (oposto ao office)."
+    },
+    {
+      "step": "07 / 10",
+      "word": "crop",
+      "ipa": "",
+      "trans": "lavoura / plantio",
+      "ex": "His main responsibility is crop planning and quality.",
+      "pt": "Sua principal responsabilidade e o planejamento de lavoura.",
+      "why": "crop = cultura agricola. Crop planning, crop quality sao termos-chave."
+    },
+    {
+      "step": "08 / 10",
+      "word": "harvest",
+      "ipa": "",
+      "trans": "safra / colheita",
+      "ex": "He sometimes works overtime during harvest season.",
+      "pt": "As vezes ele faz hora extra durante a safra.",
+      "why": "harvest season = periodo de safra. O mais intenso do calendario agricola."
+    },
+    {
+      "step": "09 / 10",
+      "word": "intense",
+      "ipa": "",
+      "trans": "intenso/a",
+      "ex": "The harvest season is very intense.",
+      "pt": "A safra e muito intensa.",
+      "why": "intense = puxado, exigente. Descreve o ritmo da safra no campo."
+    },
+    {
+      "step": "10 / 10",
+      "word": "doesn't",
+      "ipa": "",
+      "trans": "nao (ele/ela) - forma negativa",
+      "ex": "He doesn't work at the office - he is always in the field.",
+      "pt": "Ele nao trabalha no escritorio - esta sempre no campo.",
+      "why": "doesn't + verbo BASE. Nunca 'He doesn't manages'! Com doesn't, o -S some."
+    }
+  ],
+  "d3": [
+    {
+      "step": "01 / 10",
+      "word": "because",
+      "ipa": "",
+      "trans": "porque",
+      "ex": "She travels because the client is in Santos.",
+      "pt": "Ela viaja porque o cliente esta em Santos.",
+      "why": "because = conector de causa. Explica o motivo da acao."
+    },
+    {
+      "step": "02 / 10",
+      "word": "but",
+      "ipa": "",
+      "trans": "mas",
+      "ex": "He checks the crops but she handles the reports.",
+      "pt": "Ele verifica as lavouras, mas ela cuida dos relatorios.",
+      "why": "but = contraste entre duas ideias. Muito usado em descricoes de equipe."
+    },
+    {
+      "step": "03 / 10",
+      "word": "main role",
+      "ipa": "",
+      "trans": "funcao principal",
+      "ex": "His main role is crop planning.",
+      "pt": "Sua funcao principal e o planejamento de lavoura.",
+      "why": "main role = responsabilidade central do cargo. Essencial em apresentacoes."
+    },
+    {
+      "step": "04 / 10",
+      "word": "schedule",
+      "ipa": "",
+      "trans": "agenda / cronograma",
+      "ex": "Her schedule is very busy during harvest.",
+      "pt": "A agenda dela e muito cheia durante a safra.",
+      "why": "schedule = agenda de trabalho. His/Her schedule starts at 5am!"
+    },
+    {
+      "step": "05 / 10",
+      "word": "responsible for",
+      "ipa": "",
+      "trans": "responsavel por",
+      "ex": "He is responsible for crop quality at AgroBrasil.",
+      "pt": "Ele e responsavel pela qualidade da lavoura na AgroBrasil.",
+      "why": "responsible for = expressa o escopo de responsabilidade do cargo."
+    },
+    {
+      "step": "06 / 10",
+      "word": "agronomist",
+      "ipa": "",
+      "trans": "agronomo/a",
+      "ex": "He is the agronomist. He manages crop planning.",
+      "pt": "Ele e o agronomo. Ele gerencia o planejamento de lavoura.",
+      "why": "agronomist = profissional de agronomia. Lucas e o agronomo da AgroBrasil."
+    },
+    {
+      "step": "07 / 10",
+      "word": "all reports",
+      "ipa": "",
+      "trans": "todos os relatorios",
+      "ex": "She is responsible for all reports for the board.",
+      "pt": "Ela e responsavel por todos os relatorios para a diretoria.",
+      "why": "all reports = todos os documentos. Patricia handles this."
+    },
+    {
+      "step": "08 / 10",
+      "word": "Does he...?",
+      "ipa": "",
+      "trans": "Ele faz...? (pergunta sobre acao)",
+      "ex": "Does he manage the crop planning? Yes, he does.",
+      "pt": "Ele gerencia o planejamento? Sim, gerencia.",
+      "why": "Does he/she + verbo BASE. Pergunta sobre acao habitual, nao identidade."
+    },
+    {
+      "step": "09 / 10",
+      "word": "Yes, he/she does.",
+      "ipa": "",
+      "trans": "Sim, ele/ela faz.",
+      "ex": "Does she travel to Santos? Yes, she does.",
+      "pt": "Ela viaja para Santos? Sim, viaja.",
+      "why": "Short answer afirmativa. Sempre com does, nunca com o verbo principal."
+    },
+    {
+      "step": "10 / 10",
+      "word": "No, he/she doesn't.",
+      "ipa": "",
+      "trans": "Nao, ele/ela nao faz.",
+      "ex": "Does he work at the office? No, he doesn't.",
+      "pt": "Ele trabalha no escritorio? Nao, nao trabalha.",
+      "why": "Short answer negativa. Sempre com doesn't."
+    }
+  ],
+  "d4": [
+    {
+      "step": "01 / 10",
+      "word": "soil",
+      "ipa": "",
+      "trans": "solo / terra",
+      "ex": "He checks the soil quality every morning.",
+      "pt": "Ele verifica a qualidade do solo toda manha.",
+      "why": "soil = solo agricola. Felipe verifica o soil no Audio 3."
+    },
+    {
+      "step": "02 / 10",
+      "word": "port",
+      "ipa": "",
+      "trans": "porto",
+      "ex": "She travels to Santos every month for the port operations.",
+      "pt": "Ela viaja para Santos todo mes pelas operacoes no porto.",
+      "why": "port = porto. Patricia travels to Santos for the port (Audio 2 e 3)."
+    },
+    {
+      "step": "03 / 10",
+      "word": "miss",
+      "ipa": "",
+      "trans": "perder / nao comparecer",
+      "ex": "He never misses the morning field check.",
+      "pt": "Ele nunca perde a inspecao de campo da manha.",
+      "why": "miss = faltar, nao comparecer. She never misses a deadline! (Audio 2)"
+    },
+    {
+      "step": "04 / 10",
+      "word": "deadline",
+      "ipa": "",
+      "trans": "prazo / data limite",
+      "ex": "She never misses a deadline.",
+      "pt": "Ela nunca perde um prazo.",
+      "why": "deadline = data limite de entrega. Critical em projetos do agro."
+    },
+    {
+      "step": "05 / 10",
+      "word": "shipments",
+      "ipa": "",
+      "trans": "remessas / carregamentos",
+      "ex": "Patricia coordinates all shipments.",
+      "pt": "Patricia coordena todas as remessas.",
+      "why": "shipments = cargas embarcadas. Patricia coordinates all shipments (Audio 2)."
+    },
+    {
+      "step": "06 / 10",
+      "word": "quality",
+      "ipa": "",
+      "trans": "qualidade",
+      "ex": "His main role is crop quality.",
+      "pt": "Sua funcao principal e a qualidade da lavoura.",
+      "why": "crop quality = qualidade da lavoura. Lucas e responsavel por isso."
+    },
+    {
+      "step": "07 / 10",
+      "word": "what about",
+      "ipa": "",
+      "trans": "e quanto a...? / e o/a...?",
+      "ex": "\"What about Felipe?\" - \"He is our field technician.\"",
+      "pt": "\"E o Felipe?\" - \"Ele e nosso tecnico de campo.\"",
+      "why": "What about = pede informacao sobre alguem novo na conversa (Audio 3)."
+    },
+    {
+      "step": "08 / 10",
+      "word": "board",
+      "ipa": "",
+      "trans": "conselho / diretoria",
+      "ex": "She handles all reports for the board in Australia.",
+      "pt": "Ela cuida de todos os relatorios para a diretoria na Australia.",
+      "why": "board = conselho diretivo. Patricia sends reports to the Australian board."
+    },
+    {
+      "step": "09 / 10",
+      "word": "partner",
+      "ipa": "",
+      "trans": "parceiro/a",
+      "ex": "He visits partner farms every Thursday.",
+      "pt": "Ele visita fazendas parceiras toda quinta-feira.",
+      "why": "partner farms = fazendas parceiras. Lucas visits partner farms regularly."
+    },
+    {
+      "step": "10 / 10",
+      "word": "overtime",
+      "ipa": "",
+      "trans": "hora extra",
+      "ex": "He sometimes works overtime during harvest season.",
+      "pt": "As vezes ele faz hora extra durante a safra.",
+      "why": "overtime = trabalho alem do horario. Lucas e Patricia mencionam nos audios."
+    }
+  ],
+  "d5": [
+    {
+      "step": "01 / 10",
+      "word": "He manages the crop planning and he always arrives early.",
+      "ipa": "",
+      "trans": "Descrever funcao + frequencia",
+      "ex": "He manages the crop planning and he always arrives early.",
+      "pt": "Ele gerencia o planejamento e sempre chega cedo.",
+      "why": "manages + and + always. Chunk de apresentacao profissional completo."
+    },
+    {
+      "step": "02 / 10",
+      "word": "She coordinates the shipments but she doesn't handle the field team.",
+      "ipa": "",
+      "trans": "Contrastar funcao e o que NAO faz",
+      "ex": "She coordinates the shipments but she doesn't handle the field team.",
+      "pt": "Ela coordena os embarques, mas nao cuida da equipe de campo.",
+      "why": "coordinates + but + doesn't. Contraste de responsabilidades."
+    },
+    {
+      "step": "03 / 10",
+      "word": "His main role is crop quality.",
+      "ipa": "",
+      "trans": "Apresentar a funcao principal",
+      "ex": "His main role is crop quality and he always works in the field.",
+      "pt": "Sua funcao principal e qualidade da lavoura e ele sempre trabalha no campo.",
+      "why": "His main role is = chunk-chave para apresentacao de cargo."
+    },
+    {
+      "step": "04 / 10",
+      "word": "Her schedule is very busy because she manages three departments.",
+      "ipa": "",
+      "trans": "Explicar por que a agenda e cheia",
+      "ex": "Her schedule is very busy because she manages three departments.",
+      "pt": "A agenda dela e muito cheia porque ela gerencia tres setores.",
+      "why": "Her schedule + because. Conecta responsabilidade com consequencia."
+    },
+    {
+      "step": "05 / 10",
+      "word": "Does he work at the office? No, he doesn't — he works in the field.",
+      "ipa": "",
+      "trans": "Perguntar sobre local de trabalho",
+      "ex": "Does he work at the office? No, he doesn't - he works in the field.",
+      "pt": "Ele trabalha no escritorio? Nao - ele trabalha no campo.",
+      "why": "Does he + work at = pergunta + short answer."
+    },
+    {
+      "step": "06 / 10",
+      "word": "He is responsible for crop quality and all field reports.",
+      "ipa": "",
+      "trans": "Declarar responsabilidade formal",
+      "ex": "He is responsible for crop quality and all field reports.",
+      "pt": "Ele e responsavel pela qualidade da lavoura e pelos relatorios de campo.",
+      "why": "responsible for = expressao profissional formal. Muito usada em relatorios."
+    },
+    {
+      "step": "07 / 10",
+      "word": "She doesn't handle the field team because her role is logistics.",
+      "ipa": "",
+      "trans": "Negar + explicar o motivo",
+      "ex": "She doesn't handle the field team because her role is logistics.",
+      "pt": "Ela nao cuida da equipe de campo porque seu papel e logistica.",
+      "why": "doesn't + because. Negativa com justificativa."
+    },
+    {
+      "step": "08 / 10",
+      "word": "He sometimes works overtime but he never misses the morning check.",
+      "ipa": "",
+      "trans": "Contrastar frequencias",
+      "ex": "He sometimes works overtime but he never misses the morning check.",
+      "pt": "As vezes ele faz hora extra, mas nunca perde a inspecao da manha.",
+      "why": "sometimes + but + never. Contraste de frequencia."
+    },
+    {
+      "step": "09 / 10",
+      "word": "My colleague manages the logistics team. His schedule is very busy.",
+      "ipa": "",
+      "trans": "Falar sobre seu colega real",
+      "ex": "My colleague manages the logistics team. His schedule is very busy.",
+      "pt": "Meu colega gerencia a equipe de logistica. A agenda dele e bem cheia.",
+      "why": "My colleague + manages = chunk-chave para a Parte B do Dia 5."
+    },
+    {
+      "step": "10 / 10",
+      "word": "Does your colleague travel? Yes, she does — she visits partner farms.",
+      "ipa": "",
+      "trans": "Perguntar sobre o colega do outro aluno",
+      "ex": "Does your colleague travel? Yes, she does - she visits partner farms.",
+      "pt": "Seu colega viaja? Sim - ela visita fazendas parceiras.",
+      "why": "Does your colleague = pergunta natural para a entrevista na aula ao vivo."
+    }
+  ]
+};
+
+const FC_STATE = {
+  d1:{ idx:0, spd:1, exSpd:1, voice:null },
+  d2:{ idx:0, spd:1, exSpd:1, voice:null },
+  d3:{ idx:0, spd:1, exSpd:1, voice:null },
+  d4:{ idx:0, spd:1, exSpd:1, voice:null },
+  d5:{ idx:0, spd:1, exSpd:1, voice:null },
+};
+
+let sharedVoice = null;
+let voicesLoaded = false;
+
+function loadVoicesForDecks() {
+  const all = window.speechSynthesis.getVoices();
+  const en = all.filter(v => v.lang.startsWith('en'));
+  if (!en.length) { setTimeout(loadVoicesForDecks, 300); return; }
+
+  const pref = ['Google US English', 'Samantha', 'Karen', 'Google UK English Female', 'Microsoft Aria'];
+  const sorted = [...en].sort((a, b) => {
+    const ai = pref.findIndex(p => a.name.includes(p.split(' ')[0]) && a.name.includes(p.split(' ').pop()));
+    const bi = pref.findIndex(p => b.name.includes(p.split(' ')[0]) && b.name.includes(p.split(' ').pop()));
+    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+  });
+  const top = sorted.slice(0, 4);
+  sharedVoice = top[0] || null;
+  voicesLoaded = true;
+
+  ['d1','d2','d3','d4','d5'].forEach(deckId => {
+    FC_STATE[deckId].voice = top[0] || null;
+    const loading = document.getElementById('v-loading-' + deckId);
+    if (loading) loading.style.display = 'none';
+    const container = document.getElementById('v-btns-' + deckId);
+    if (!container) return;
+    container.innerHTML = '';
+    top.forEach((v, i) => {
+      const b = document.createElement('button');
+      b.className = 'vbtn' + (i === 0 ? ' active' : '');
+      b.textContent = v.name.replace('Google ', '').replace('Microsoft ', '').replace(' Online Natural', '').replace(' Online', '').replace(' (Natural)', '');
+      b.onclick = () => {
+        ['d1','d2','d3','d4','d5'].forEach(id => FC_STATE[id].voice = v);
+        sharedVoice = v;
+        stopAllFC(deckId);
+        ['d1','d2','d3','d4','d5'].forEach(id => {
+          const c2 = document.getElementById('v-btns-' + id);
+          if (!c2) return;
+          Array.from(c2.querySelectorAll('.vbtn')).forEach((btn, idx) => btn.classList.toggle('active', idx === i));
+        });
+      };
+      container.appendChild(b);
+    });
+  });
+}
+
+if (window.speechSynthesis) {
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoicesForDecks;
+  }
+  loadVoicesForDecks();
+}
+
+function stopAllFC(deckId) {
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  ['abtn-word-'+deckId,'abtn-ex-'+deckId].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('playing');
+  });
+}
+
+function sayFC(text, rate, btnId, deckId) {
+  stopAllFC(deckId);
+  if (!window.speechSynthesis || !text) return;
+  const u = new SpeechSynthesisUtterance(text);
+  const v = FC_STATE[deckId].voice || sharedVoice;
+  if (v) u.voice = v;
+  u.lang = 'en-US'; u.rate = rate;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('playing');
+  u.onend = u.onerror = () => { if (btn) btn.classList.remove('playing'); };
+  window.speechSynthesis.speak(u);
+}
+
+function sayWord(deckId) {
+  const c = CARDS[deckId][FC_STATE[deckId].idx];
+  sayFC(c.word, FC_STATE[deckId].spd, 'abtn-word-'+deckId, deckId);
+}
+function sayEx(deckId) {
+  const c = CARDS[deckId][FC_STATE[deckId].idx];
+  sayFC(c.ex, FC_STATE[deckId].exSpd, 'abtn-ex-'+deckId, deckId);
+}
+function setSpd(deckId, s, e) {
+  e.stopPropagation(); FC_STATE[deckId].spd = s;
+  document.getElementById('spd1-'+deckId).classList.toggle('active', s===1);
+  document.getElementById('spd07-'+deckId).classList.toggle('active', s===0.7);
+  sayWord(deckId);
+}
+function setExSpd(deckId, s, e) {
+  e.stopPropagation(); FC_STATE[deckId].exSpd = s;
+  document.getElementById('exspd1-'+deckId).classList.toggle('active', s===1);
+  document.getElementById('exspd07-'+deckId).classList.toggle('active', s===0.7);
+  sayEx(deckId);
+}
+
+function buildDots(deckId) {
+  const container = document.getElementById('fc-dots-'+deckId);
+  if (!container) return;
+  container.innerHTML = '';
+  CARDS[deckId].forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (i===0?' active':'');
+    d.id = 'dot-'+deckId+'-'+i;
+    d.onclick = () => { FC_STATE[deckId].idx = i; renderFC(deckId); updateDots(deckId); };
+    container.appendChild(d);
+  });
+}
+function updateDots(deckId) {
+  CARDS[deckId].forEach((_, i) => {
+    const d = document.getElementById('dot-'+deckId+'-'+i);
+    if (!d) return;
+    d.className = 'fc-dot' + (i===FC_STATE[deckId].idx?' active':i<FC_STATE[deckId].idx?' done':'');
+  });
+}
+function renderFC(deckId) {
+  const c = CARDS[deckId][FC_STATE[deckId].idx];
+  document.getElementById('fc-step-'+deckId).textContent = c.step;
+  document.getElementById('fc-word-'+deckId).textContent = c.word;
+  document.getElementById('fc-ipa-'+deckId).textContent = c.ipa;
+  document.getElementById('fc-trans-'+deckId).textContent = c.trans;
+  document.getElementById('fc-ex-'+deckId).textContent = c.ex;
+  document.getElementById('fc-ex-pt-'+deckId).textContent = c.pt;
+  document.getElementById('fc-why-'+deckId).textContent = 'Por que importa: ' + c.why;
+  document.getElementById('fc-counter-'+deckId).textContent = (FC_STATE[deckId].idx+1) + ' de ' + CARDS[deckId].length;
+  stopAllFC(deckId);
+  document.getElementById('fc-front-'+deckId).classList.remove('hidden');
+  document.getElementById('fc-back-'+deckId).classList.remove('visible');
+}
+function handleCardClick(e, deckId) {
+  if (e.target.closest('.audio-btns') || e.target.closest('.abtn') || e.target.closest('.spd-btn')) return;
+  const front = document.getElementById('fc-front-'+deckId);
+  const back  = document.getElementById('fc-back-'+deckId);
+  const flipped = front.classList.contains('hidden');
+  front.classList.toggle('hidden', !flipped);
+  back.classList.toggle('visible', !flipped);
+}
+function fcNav(deckId, dir) {
+  FC_STATE[deckId].idx = (FC_STATE[deckId].idx + dir + CARDS[deckId].length) % CARDS[deckId].length;
+  renderFC(deckId); updateDots(deckId);
+}
+['d1','d2','d3','d4','d5'].forEach(id => {
+  buildDots(id);
+  renderFC(id);
+});
+
+const ANSWERS = {"d1-vd-1": {"ans": "He works at the farm.", "why": "work → works com He/She (+S)"}, "d1-vd-2": {"ans": "She eats at the canteen.", "why": "eat → eats com He/She (+S)"}, "d1-vd-3": {"ans": "He drinks coffee every morning.", "why": "drink → drinks com He/She (+S)"}, "d1-vd-4": {"ans": "She studies English at home.", "why": "study → studies com He/She (Y→IES)"}, "d1-vd-5": {"ans": "He has a coffee break at 3pm.", "why": "have → has com He/She (irregular!)"}, "d1-vd-6": {"ans": "She manages the team.", "why": "manage → manages com He/She (+S)"}, "d1-vd-7": {"ans": "He travels to partner farms.", "why": "travel → travels com He/She (+S)"}, "d1-e1-1": {"ans": "He manages the crop planning.", "why": "manage → manages com He (+S)"}, "d1-e1-2": {"ans": "She travels to partner farms.", "why": "travel → travels com She (+S)"}, "d1-e1-3": {"ans": "He coordinates the field team.", "why": "coordinate → coordinates com He (+S)"}, "d1-e1-4": {"ans": "She checks the soybean fields.", "why": "check → checks com She (+S)"}, "d1-e1-5": {"ans": "He handles all international reports.", "why": "handle → handles com He (+S)"}, "d1-e1-6": {"ans": "She visits partner farms on Thursdays.", "why": "visit → visits com She (+S)"}, "d1-e1-7": {"ans": "His main role is crop planning.", "why": "My → His quando o sujeito é He"}, "d1-e1-8": {"ans": "Her team has four people.", "why": "My → Her quando o sujeito é She"}, "d1-q1": {"open": true, "example": "He manages the crop planning."}, "d1-q2": {"open": true, "example": "No, he doesn't. He works in the field."}, "d1-q3": {"open": true, "example": "She handles all shipments and the warehouse team."}, "d1-q4": {"open": true, "example": "Yes, she does. She travels to Santos every month."}, "d1-q5": {"open": true, "example": "He checks the crops every morning."}, "d1-vc1-s": {"open": true, "example": "He manages the crop planning at AgroBrasil."}, "d1-vc2-s": {"open": true, "example": "She travels to partner farms every Thursday."}, "d1-vc3-s": {"open": true, "example": "His main role is logistics coordination."}, "d2-neg-1": {"ans": "He doesn't manage the office team.", "why": "He/She + doesn't + verbo base (sem -S)"}, "d2-neg-2": {"ans": "She doesn't travel every week.", "why": "She/He + doesn't + verbo base (sem -S)"}, "d2-neg-3": {"ans": "He doesn't check the office reports.", "why": "He/She + doesn't + verbo base (sem -S)"}, "d2-neg-4": {"ans": "She doesn't handle the field operations.", "why": "She/He + doesn't + verbo base (sem -S)"}, "d2-neg-5": {"ans": "He doesn't visit the headquarters every day.", "why": "He/She + doesn't + verbo base (sem -S)"}, "d2-neg-6": {"ans": "She doesn't coordinate the harvest team.", "why": "She/He + doesn't + verbo base (sem -S)"}, "d2-adv-1": {"ans": "He always arrives early.", "why": "always = sempre · posição: sujeito + always + verbo"}, "d2-adv-2": {"ans": "She usually coordinates the morning shipments.", "why": "usually = geralmente · posição: sujeito + usually + verbo"}, "d2-adv-3": {"ans": "He sometimes works overtime during harvest.", "why": "sometimes = às vezes · posição: sujeito + sometimes + verbo"}, "d2-adv-4": {"ans": "She never handles logistics by herself.", "why": "never = nunca · posição: sujeito + never + verbo"}, "d2-adv-5": {"ans": "He usually visits at least two farms a week.", "why": "usually = geralmente · posição: sujeito + usually + verbo"}, "d2-adv-6": {"ans": "She always checks the crop quality report.", "why": "always = sempre · posição: sujeito + always + verbo"}, "d2-vc1-s": {"open": true, "example": "He always arrives early at the farm."}, "d2-vc2-s": {"open": true, "example": "She sometimes travels on weekends."}, "d2-vc3-s": {"open": true, "example": "He never works at the office — he is always in the field."}, "d3-q-1": {"ans": "Does he manage the crop planning?", "why": "Does + he/she + verbo base (sem -S). Ação → Does, não Is."}, "d3-qa-1": {"ans": "Yes, he does.", "why": "Short answer afirmativa: Yes, he/she does."}, "d3-q-2": {"ans": "Does she travel to Santos every month?", "why": "Does + she + verbo base (travel, sem -S)"}, "d3-qa-2": {"ans": "Yes, she does.", "why": "Short answer afirmativa: Yes, he/she does."}, "d3-q-3": {"ans": "Does he check the soybean fields every morning?", "why": "Does + he + verbo base (check, sem -S)"}, "d3-qa-3": {"ans": "Yes, he does.", "why": "Short answer afirmativa: Yes, he/she does."}, "d3-q-4": {"ans": "Does she coordinate the warehouse team?", "why": "Does + she + verbo base (coordinate, sem -S)"}, "d3-qa-4": {"ans": "Yes, she does.", "why": "Short answer afirmativa: Yes, he/she does."}, "d3-q-5": {"ans": "Does he handle all international reports?", "why": "Does + he + verbo base (handle, sem -S)"}, "d3-qa-5": {"ans": "Yes, he does.", "why": "Short answer afirmativa: Yes, he/she does."}, "d3-adv2-1": {"ans": "He sometimes works overtime during harvest.", "why": "sometimes vem antes do verbo principal: He + sometimes + works"}, "d3-adv2-2": {"ans": "She always checks the reports in the morning.", "why": "always vem antes do verbo principal: She + always + checks"}, "d3-adv2-3": {"ans": "He never visits the headquarters.", "why": "never vem antes do verbo principal: He + never + visits"}, "d3-adv2-4": {"ans": "She usually travels to partner farms on Mondays.", "why": "usually vem antes do verbo principal: She + usually + travels"}, "d3-adv2-5": {"ans": "He always eats at the canteen with his team.", "why": "always vem antes do verbo principal: He + always + eats"}, "d3-adv2-6": {"ans": "She sometimes works at the office on Fridays.", "why": "sometimes vem antes do verbo principal: She + sometimes + works"}, "d3-bb-1": {"ans": "but", "why": "Contraste entre duas ideias diferentes → but"}, "d3-bb-2": {"ans": "because", "why": "Explica o motivo da viagem → because"}, "d3-bb-3": {"ans": "but", "why": "Contraste: ele faz uma coisa, mas não faz outra → but"}, "d3-bb-4": {"ans": "because", "why": "Explica por que a agenda é ocupada → because"}, "d3-bb-5": {"ans": "because", "why": "Explica o motivo das horas extras → because"}, "d3-bb-6": {"ans": "but", "why": "Contraste: ela coordena, mas não lida com a outra equipe → but"}, "d3-bb-7": {"ans": "because", "why": "Explica o motivo de chegar cedo → because"}, "d3-bb-8": {"ans": "but", "why": "Contraste: ela é responsável pelos relatórios, mas não visita fazendas → but"}, "d3-bb-9": {"ans": "because", "why": "Explica por que ele não tem escritório → because"}, "d3-bb-10": {"ans": "but", "why": "Contraste: ela viaja nas segundas, mas a equipe fica para cuidar dos envios → but"}, "d3-vc1-s": {"open": true, "example": "She coordinates the field operations but she doesn't manage the harvest team."}, "d3-vc2-s": {"open": true, "example": "His schedule is very busy because he manages three departments."}, "d3-bb-own1": {"open": true, "example": "He checks the crops but she handles the reports."}, "d3-bb-own2": {"open": true, "example": "She travels because the client is in Santos."}, "d4-ph-1": {"open": true, "example": "She manages the warehouse team and she always checks the reports before noon."}, "d4-ph-2": {"open": true, "example": "He visits the farms but he doesn't handle the office operations."}, "d4-ph-3": {"open": true, "example": "Does she travel every week? Yes, she does."}, "d4-ph-4": {"open": true, "example": "His schedule is very busy because he manages the whole field team."}, "d4-a1-1": {"ans": "F", "why": "His main role is crop quality — not logistics."}, "d4-a1-2": {"ans": "T", "why": "He says: \"I always check the soybean fields in the morning.\""}, "d4-a1-3": {"ans": "F", "why": "He visits on Thursdays — not Tuesdays."}, "d4-a1-4": {"ans": "T", "why": "He says: \"I sometimes work overtime during harvest season.\""}, "d4-a1-5": {"ans": "F", "why": "He says: \"I don't work at the office — I am always in the field.\""}, "d4-a1-6": {"ans": "T", "why": "He says: \"My schedule starts at 5am every day.\""}, "d4-a2-1": {"ans": "coordinator", "why": "Patricia se apresenta como \"logistics coordinator\""}, "d4-a2-2": {"ans": "coordinate", "why": "She says: \"I coordinate all shipments\""}, "d4-a2-3": {"ans": "handle", "why": "She says: \"I handle the warehouse team\""}, "d4-a2-4": {"ans": "four", "why": "She says: \"Our team has four people\""}, "d4-a2-5": {"ans": "main", "why": "My main role — main = principal"}, "d4-a2-6": {"ans": "role", "why": "My main role — role = função"}, "d4-a2-7": {"ans": "delivery", "why": "She says: \"check that every delivery is on time\""}, "d4-a2-8": {"ans": "usually", "why": "She says: \"I usually work at the headquarters\""}, "d4-a2-9": {"ans": "travel", "why": "She says: \"I also travel\""}, "d4-a2-10": {"ans": "because", "why": "She explains the reason for traveling → because"}, "d4-a2-11": {"ans": "Santos", "why": "She says: \"we work with the port in Santos\""}, "d4-a2-12": {"ans": "never", "why": "She says: \"I never handle the field operations\""}, "d4-a2-13": {"ans": "harvest season", "why": "She says: \"I sometimes work overtime during harvest season\""}, "d4-a2-13b": {"ans": "during harvest season", "why": "She says: \"during harvest season\" — during = durante"}, "d4-a2-13c": {"ans": "intense", "why": "She says: \"because the schedule is very intense\""}, "d4-a2-14": {"ans": "responsible for", "why": "She says: \"I am responsible for all reports\""}, "d4-a3-1": {"open": true, "example": "No, he doesn't. He works in the field — he never works at the office."}, "d4-a3-2": {"open": true, "example": "Yes, he does. He usually visits two farms a week."}, "d4-a3-3": {"open": true, "example": "Yes, she does. She travels to Santos every month."}, "d4-a3-4": {"open": true, "example": "She is responsible for all international reports for the board."}, "d4-a3-5": {"open": true, "example": "No, he doesn't. He checks the soil quality and coordinates the harvest team."}, "d4-a3-6": {"open": true, "example": "Yes, he does. He sometimes works overtime because it is very intense."}, "d5-cons-1": {"open": true, "example": "He manages the crop planning and he always arrives early. His main role is crop quality."}, "d5-cons-2": {"open": true, "example": "She coordinates the shipments but she doesn't handle the field team. Her team has four people."}, "d5-cons-3": {"open": true, "example": "Does he work at the headquarters? No, he doesn't — he works in the field."}, "d5-cons-4": {"open": true, "example": "She is responsible for all reports because her schedule includes board meetings."}, "d5-cons-5": {"open": true, "example": "He sometimes works overtime but he never misses the morning field check. His schedule is busy during harvest."}, "d5-cons-6": {"open": true, "example": "My main role is crop planning. I am responsible for quality. I always check the fields and I sometimes work overtime."}, "d5-cons-7": {"open": true, "example": "My colleague manages the logistics team. His schedule is very busy because he coordinates all shipments."}, "d5-cons-8": {"open": true, "example": "Does your colleague travel? Yes, she does. She visits partner farms every Thursday."}};
+const STORAGE_KEY = 'talkiteasy_w6';
+
+function showDay(n) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day-' + n).classList.add('active');
+  document.querySelectorAll('.tab-btn')[n - 1].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  saveAll();
+}
+
+function toggleScript(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function saveAll() {
+  const data = {};
+  document.querySelectorAll('[data-key]').forEach(el => { data[el.dataset.key] = el.value; });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    document.querySelectorAll('[data-key]').forEach(el => {
+      if (data[el.dataset.key] !== undefined) el.value = data[el.dataset.key];
+    });
+  } catch(e) {}
+}
+
+function clearAll() {
+  if (!confirm('Tem certeza? Isso vai apagar TODAS as suas respostas.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('[data-key]').forEach(el => el.value = '');
+}
+
+function exportPDF() {
+  const panels = document.querySelectorAll('.day-panel');
+  const scripts = document.querySelectorAll('.script-box');
+  scripts.forEach(s => s.classList.add('open'));
+  panels.forEach(p => p.style.display = 'block');
+  window.print();
+  setTimeout(() => {
+    const activeIdx = Array.from(document.querySelectorAll('.tab-btn')).findIndex(b => b.classList.contains('active'));
+    panels.forEach((p, i) => p.style.display = i === activeIdx ? 'block' : 'none');
+    scripts.forEach(s => s.classList.remove('open'));
+  }, 1000);
+}
+
+document.querySelectorAll('[data-key]').forEach(el => {
+  el.addEventListener('input', () => saveAll());
+});
+
+loadAll();
+function normalize(str) {
+  return str.trim().toLowerCase()
+    .replace(/[.,!?;:]/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/^(yes,?\s*)|(no,?\s*)/i, '');
+}
+
+function checkField(key, inputEl) {
+  const data = ANSWERS[key];
+  if (!data) return;
+  const feedbackEl = document.getElementById('fb-' + key);
+  if (!feedbackEl) return;
+
+  if (data.open) {
+    feedbackEl.className = 'feedback-box example open';
+    feedbackEl.innerHTML = '<strong>💡 Exemplo de resposta:</strong><br>' + data.example;
+    return;
+  }
+
+  const userVal = inputEl.value;
+  const correctAnswers = Array.isArray(data.ans) ? data.ans : [data.ans];
+  const isCorrect = correctAnswers.some(a => normalize(userVal) === normalize(a));
+
+  if (!userVal.trim()) {
+    feedbackEl.className = 'feedback-box wrong open';
+    feedbackEl.innerHTML = '<strong>✏️ Preencha a resposta primeiro.</strong>';
+    return;
+  }
+
+  if (isCorrect) {
+    feedbackEl.className = 'feedback-box correct open';
+    feedbackEl.innerHTML = '✅ <strong>Correto!</strong>';
+  } else {
+    feedbackEl.className = 'feedback-box wrong open';
+    feedbackEl.innerHTML = '❌ <span class="correct-ans">Resposta correta: ' + correctAnswers[0] + '</span><span class="why">Por quê: ' + (data.why || '') + '</span>';
+  }
+}
+
+function checkAll(prefix) {
+  let total = 0, correct = 0;
+  document.querySelectorAll('[data-key^="' + prefix + '"]').forEach(el => {
+    const key = el.dataset.key;
+    const data = ANSWERS[key];
+    if (!data || data.open) return;
+    total++;
+    checkField(key, el);
+    const fb = document.getElementById('fb-' + key);
+    if (fb && fb.classList.contains('correct')) correct++;
+  });
+  const scoreEl = document.getElementById('score-' + prefix);
+  if (scoreEl && total > 0) {
+    const pct = Math.round(correct/total*100);
+    const emoji = pct === 100 ? '🎉' : pct >= 70 ? '💪' : '📖';
+    scoreEl.style.display = 'block';
+    scoreEl.innerHTML = emoji + ' Resultado: <strong>' + correct + '/' + total + '</strong> corretas (' + pct + '%)';
+  }
+}
+
+
+</script>
+</body>
+</html>
